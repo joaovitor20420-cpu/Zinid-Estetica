@@ -9,109 +9,108 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
 }
 
+const FRAME_COUNT = 300;
+
 export function Hero() {
   const container = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [isReady, setIsReady] = useState(false);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
 
-  // Garante que o estado seja atualizado mesmo se o vídeo já estiver no cache do navegador
-  // O React às vezes perde o evento onLoadedMetadata se o vídeo carregar instantaneamente.
+  // Preload images
   useEffect(() => {
-    if (videoRef.current && videoRef.current.readyState >= 1 && videoRef.current.duration > 0) {
-      videoRef.current.currentTime = 0;
-      setIsReady(true);
+    let loadedCount = 0;
+    const images: HTMLImageElement[] = [];
+
+    for (let i = 1; i <= FRAME_COUNT; i++) {
+      const img = new Image();
+      const frameNumber = String(i).padStart(4, "0");
+      img.src = `/hero-sequence/frame_${frameNumber}.jpg`;
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === 1) {
+          // Draw first frame when the first image is loaded
+          const ctx = canvasRef.current?.getContext("2d");
+          if (ctx && canvasRef.current) {
+            canvasRef.current.width = img.width;
+            canvasRef.current.height = img.height;
+            ctx.drawImage(img, 0, 0);
+          }
+        }
+        if (loadedCount === FRAME_COUNT) {
+          setIsReady(true);
+        }
+      };
+      images.push(img);
     }
+    imagesRef.current = images;
   }, []);
 
   useGSAP(() => {
-    // Animação de Entrada dos Textos (Totalmente independente do vídeo)
-    // Movida para FORA da trava de isReady para que o texto sempre apareça!
+    // Animação de Entrada dos Textos
     const textsTl = gsap.timeline();
     textsTl.fromTo(".hero-eyebrow", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
     textsTl.fromTo(".hero-word", { opacity: 0, y: 40, rotateX: -20 }, { opacity: 1, y: 0, rotateX: 0, duration: 1, stagger: 0.1, ease: "power4.out" }, "-=0.4");
     textsTl.fromTo(".hero-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, "-=0.6");
 
-    // Trava de segurança para o vídeo
-    if (!isReady || !videoRef.current) return;
+    if (!imagesRef.current.length || !canvasRef.current) return;
 
-    const video = videoRef.current;
-    const duration = video.duration;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
 
-    if (!duration || isNaN(duration)) return;
-
-    // Variáveis para controle de decodificação eficiente (Sem RAF infinito)
-    let targetTime = 0;
-    let isUpdating = false;
     let frameReq: number;
+    const frameData = { currentFrame: 0 };
 
-    const updateVideoFrame = () => {
-      // Diferença mínima para evitar micropulos (0.02s)
-      if (Math.abs(video.currentTime - targetTime) > 0.02) {
-        // A regra de Ouro: SÓ mande o vídeo buscar um frame se ele já terminou
-        // de buscar o anterior. Isso impede o engasgo/stuttering do decoder do MP4!
-        if (!video.seeking) {
-          video.currentTime = targetTime;
-        }
-        // Continua rodando o loop APENAS enquanto não atingir o alvo
-        frameReq = requestAnimationFrame(updateVideoFrame);
-      } else {
-        // Desliga o loop quando terminar (Cumprindo a regra de não ter RAF infinito)
-        isUpdating = false;
+    const updateCanvas = () => {
+      if (!context) return;
+      const img = imagesRef.current[frameData.currentFrame];
+      if (img && img.complete) {
+        context.drawImage(img, 0, 0, canvas.width, canvas.height);
       }
     };
 
-    // Arquitetura limpa: ScrollTrigger
     ScrollTrigger.create({
       trigger: container.current,
       start: "top top",
-      end: "+=1000%", // Dobro da velocidade!
+      end: "+=2000%", // Aumentei o tempo de scroll para ser ainda mais fluido
       pin: true,
-      scrub: true, // Mantém o pin macio, GSAP resolve a inércia do scroll
+      scrub: 0.5, // Adiciona uma suavidade no scrub (meio segundo de atraso para inércia)
       anticipatePin: 1,
       onUpdate: (self) => {
-        targetTime = self.progress * duration; // Progresso bruto de 0 a 100%
-        
-        // Liga o motor de atualização finita caso esteja desligado
-        if (!isUpdating) {
-          isUpdating = true;
-          frameReq = requestAnimationFrame(updateVideoFrame);
+        // Mapeia o progresso (0 a 1) para o índice do frame (0 a 299)
+        const frameIndex = Math.min(
+          FRAME_COUNT - 1,
+          Math.floor(self.progress * FRAME_COUNT)
+        );
+
+        if (frameData.currentFrame !== frameIndex) {
+          frameData.currentFrame = frameIndex;
+          if (frameReq) cancelAnimationFrame(frameReq);
+          frameReq = requestAnimationFrame(updateCanvas);
         }
       }
     });
 
     setTimeout(() => {
-      ScrollTrigger.sort(); // Garante o alinhamento correto dos componentes abaixo
+      ScrollTrigger.sort();
       ScrollTrigger.refresh();
     }, 100);
 
-    // Cleanup: Mata o loop caso o componente seja desmontado durante o scroll
     return () => {
-      cancelAnimationFrame(frameReq);
+      if (frameReq) cancelAnimationFrame(frameReq);
     };
 
-  }, { scope: container, dependencies: [isReady] });
+  }, { scope: container }); // Removi a dependência de isReady para o texto animar independente das imagens carregarem 100%
 
   return (
     <section ref={container} className="relative w-full h-[100dvh] bg-zinid-black overflow-hidden flex flex-col lg:flex-row">
-      {/* Background Video */}
+      {/* Background Canvas (Image Sequence) */}
       <div className="absolute inset-0 z-0">
-        <video
-          ref={videoRef}
-          src="/Blue_sports_sedan_detailing_process_202609020009.mp4"
-          className="w-full h-full object-cover object-center"
-          muted
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-          onLoadedMetadata={(e) => {
-            const v = e.target as HTMLVideoElement;
-            if (v.duration > 0) {
-              v.currentTime = 0;
-              setIsReady(true);
-            }
-          }}
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full object-cover object-center block"
         />
         {/* Overlay gradient to ensure text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-zinid-black via-zinid-black/60 to-transparent z-10" />
