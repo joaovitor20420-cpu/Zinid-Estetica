@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
@@ -31,13 +32,82 @@ const services = [
   },
 ];
 
+function ServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  // Parallax suave na imagem baseado no scroll da página
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 80, rotateX: -10 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ 
+        duration: 0.8, 
+        delay: index * 0.1, 
+        ease: [0.16, 1, 0.3, 1] 
+      }}
+      whileHover={{ y: -10 }}
+      className={`group relative min-h-[400px] md:min-h-[450px] bg-zinid-dark overflow-hidden rounded-2xl cursor-default ${service.colSpan} border border-white/5 hover:border-zinid-blue/40 transition-colors duration-500 hover:shadow-[0_0_40px_rgba(0,71,255,0.15)]`}
+      style={{ perspective: "1000px" }}
+    >
+      {/* Imagem com Parallax e Zoom no hover */}
+      <motion.div style={{ y }} className="absolute inset-0 w-full h-[130%] -top-[15%]">
+        <Image
+          src={service.image}
+          alt={service.title}
+          fill
+          className="object-cover transition-all duration-700 ease-out grayscale-[0.8] opacity-30 group-hover:grayscale-0 group-hover:opacity-70 group-hover:scale-110"
+        />
+      </motion.div>
+
+      {/* Gradiente escuro para contraste do texto */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
+      
+      {/* Luz radial azul no hover no fundo */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(0,71,255,0.15),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+      
+      <div className="absolute inset-x-0 bottom-0 p-8 md:p-10 flex flex-col justify-end h-full z-10 pointer-events-none">
+        <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:translate-y-12 group-hover:translate-y-0">
+          <h3 className="text-2xl md:text-3xl font-bold mb-2 text-white tracking-tight flex items-center justify-between">
+            {service.title}
+            {/* Ícone de Seta em Círculo Neon */}
+            <div className="w-12 h-12 rounded-full bg-zinid-blue/10 flex items-center justify-center opacity-0 -translate-x-4 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-x-0 hidden md:flex border border-zinid-blue/30 shadow-[0_0_15px_rgba(0,71,255,0.3)]">
+              <ArrowRight className="w-5 h-5 text-zinid-blue" />
+            </div>
+          </h3>
+          
+          {/* Expanding Text for Desktop, Static for Mobile */}
+          <div className="md:grid md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+            <div className="md:overflow-hidden">
+              <p className="text-zinc-400 text-base md:text-lg leading-relaxed max-w-sm mt-4 md:opacity-0 transition-opacity duration-500 delay-100 md:group-hover:opacity-100">
+                {service.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export function Services() {
   return (
     <section id="servicos" className="py-32 bg-zinid-black relative overflow-hidden">
-      <div className="container mx-auto px-6 max-w-7xl">
+      {/* Luz ambiente abstrata de fundo */}
+      <div className="absolute top-0 left-0 w-full h-[500px] bg-zinid-blue/5 rounded-[100%] blur-[120px] pointer-events-none -translate-y-1/2" />
+      
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
         <div className="mb-20">
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
@@ -57,43 +127,9 @@ export function Services() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {services.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className={`group relative min-h-[400px] md:min-h-[450px] bg-zinid-dark overflow-hidden rounded-xl cursor-default ${service.colSpan}`}
-            >
-              <Image
-                src={service.image}
-                alt={service.title}
-                fill
-                className="object-cover transition-all duration-700 ease-out grayscale-[0.8] opacity-30 group-hover:grayscale-0 group-hover:opacity-70 group-hover:scale-105"
-              />
-              {/* Dark overlay for contrast */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
-              
-              <div className="absolute inset-x-0 bottom-0 p-8 md:p-10 flex flex-col justify-end h-full">
-                <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:translate-y-10 group-hover:translate-y-0">
-                  <h3 className="text-2xl md:text-3xl font-bold mb-2 text-white tracking-tight flex items-center justify-between">
-                    {service.title}
-                    <ArrowRight className="w-6 h-6 opacity-0 -translate-x-4 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-x-0 hidden md:block" />
-                  </h3>
-                  
-                  {/* Expanding Text for Desktop, Static for Mobile */}
-                  <div className="md:grid md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
-                    <div className="md:overflow-hidden">
-                      <p className="text-zinc-400 text-base md:text-lg leading-relaxed max-w-sm mt-3 md:opacity-0 transition-opacity duration-500 delay-100 md:group-hover:opacity-100">
-                        {service.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+            <ServiceCard key={service.title} service={service} index={index} />
           ))}
         </div>
       </div>
