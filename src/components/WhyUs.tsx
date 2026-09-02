@@ -10,10 +10,26 @@ if (typeof window !== "undefined") {
 }
 
 const pillars = [
-  { num: "01", title: "Detalhamento" },
-  { num: "02", title: "Qualidade" },
-  { num: "03", title: "Cuidado" },
-  { num: "04", title: "Acabamento" },
+  { 
+    num: "01", 
+    title: "Detalhamento",
+    desc: "Atenção cirúrgica a cantos, grades, emblemas e frestas que limpezas comuns ignoram."
+  },
+  { 
+    num: "02", 
+    title: "Qualidade",
+    desc: "Utilizamos exclusivamente vitrificadores, cerâmicas e compostos importados de altíssima performance."
+  },
+  { 
+    num: "03", 
+    title: "Cuidado",
+    desc: "Lavagem técnica criteriosa para garantir zero atrito e total preservação do verniz original."
+  },
+  { 
+    num: "04", 
+    title: "Acabamento",
+    desc: "O toque final que transforma. Brilho profundo, espelhado e com proteção de longa duração."
+  },
 ];
 
 export function WhyUs() {
@@ -23,7 +39,7 @@ export function WhyUs() {
   const pRef = useRef<HTMLParagraphElement>(null);
 
   useGSAP(() => {
-    // Kinetic Marquee driven by scroll velocity
+    // Kinetic Marquee animado pelo scroll
     gsap.to(marquee.current, {
       xPercent: -50,
       ease: "none",
@@ -31,23 +47,22 @@ export function WhyUs() {
         trigger: container.current,
         start: "top bottom",
         end: "bottom top",
-        scrub: 1, // lag for smoothness
+        scrub: 1, 
       }
     });
 
-    // Heading Parallax and Fade
+    // Fade-in suave para os textos da esquerda
     gsap.fromTo(
       heading.current,
-      { y: 100, opacity: 0 },
+      { y: 50, opacity: 0 },
       {
         y: 0,
         opacity: 1,
-        ease: "none",
+        duration: 1,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: heading.current,
-          start: "top 85%",
-          end: "top 40%",
-          scrub: true,
+          start: "top 80%",
         }
       }
     );
@@ -58,24 +73,24 @@ export function WhyUs() {
       {
         y: 0,
         opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
+        duration: 1,
+        delay: 0.2,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: pRef.current,
-          start: "top 85%",
+          start: "top 80%",
         }
       }
     );
 
-    // Staggered Pillars Entrance
+    // Entrada escalonada dos pilares na direita
     gsap.utils.toArray(".pillar-row").forEach((row: any) => {
       gsap.fromTo(
         row,
-        { opacity: 0, y: 40, scale: 0.98 },
+        { opacity: 0, x: 50 },
         {
           opacity: 1,
-          y: 0,
-          scale: 1,
+          x: 0,
           duration: 0.8,
           ease: "power3.out",
           scrollTrigger: {
@@ -89,10 +104,10 @@ export function WhyUs() {
   }, { scope: container });
 
   return (
-    <section ref={container} id="sobre" className="py-40 bg-black border-y border-white/5 relative overflow-hidden">
+    <section ref={container} id="sobre" className="py-32 bg-black border-y border-white/5 relative overflow-hidden">
       
       {/* Kinetic Marquee Background */}
-      <div className="absolute top-32 left-0 w-[200vw] overflow-hidden whitespace-nowrap pointer-events-none opacity-[0.03] flex items-center select-none">
+      <div className="absolute top-32 left-0 w-[200vw] overflow-hidden whitespace-nowrap pointer-events-none opacity-[0.02] flex items-center select-none">
         <div ref={marquee} className="flex gap-4 text-[150px] font-bold tracking-tighter text-white w-max">
           <span>ESTÉTICA AUTOMOTIVA PREMIUM • CUIDADO ABSOLUTO •</span>
           <span>ESTÉTICA AUTOMOTIVA PREMIUM • CUIDADO ABSOLUTO •</span>
@@ -100,35 +115,60 @@ export function WhyUs() {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        <div className="max-w-5xl mb-32">
-          <h2 ref={heading} className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[1.05] mb-12 text-white">
-            MAIS DO QUE LIMPEZA.
-            <br />
-            <span className="text-zinid-blue drop-shadow-[0_0_15px_rgba(0,71,255,0.2)]">É CUIDADO COM SEU CARRO.</span>
-          </h2>
-          
-          <p ref={pRef} className="text-2xl md:text-3xl lg:text-4xl text-zinc-400 max-w-[35ch] leading-snug font-light opacity-0">
-            Na Zinid, cada detalhe importa. Nosso objetivo é entregar um resultado que você perceba no primeiro olhar, combinando técnicas avançadas com perfeccionismo.
-          </p>
+      <div className="container mx-auto px-6 max-w-7xl relative z-10 flex flex-col lg:flex-row gap-16 lg:gap-24">
+        
+        {/* Coluna Esquerda (Sticky) */}
+        <div className="lg:w-5/12 flex flex-col">
+          <div className="lg:sticky lg:top-40">
+            {/* Tag / Eyebrow */}
+            <div className="inline-block px-3 py-1 mb-6 border border-zinid-blue/30 rounded-full bg-zinid-blue/5 backdrop-blur-sm">
+              <span className="text-zinid-blue text-xs font-bold tracking-widest uppercase">
+                A Filosofia Zinid
+              </span>
+            </div>
+
+            <h2 ref={heading} className="text-5xl md:text-6xl font-bold tracking-tighter leading-[1.05] mb-8 text-white opacity-0">
+              MAIS DO QUE <br /> LIMPEZA.
+              <br />
+              <span className="text-zinid-blue drop-shadow-[0_0_15px_rgba(0,71,255,0.2)]">
+                É CUIDADO.
+              </span>
+            </h2>
+            
+            <p ref={pRef} className="text-lg md:text-xl text-zinc-400 max-w-sm leading-relaxed font-light opacity-0">
+              Na Zinid, cada detalhe importa. Nosso objetivo é entregar um resultado que você perceba no primeiro olhar, combinando técnicas avançadas com perfeccionismo absurdo.
+            </p>
+          </div>
         </div>
 
-        {/* Scaled Typographic List */}
-        <div className="flex flex-col border-t border-white/10">
-          {pillars.map((pillar) => (
-            <div key={pillar.num} className="pillar-row flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12 py-10 md:py-16 border-b border-white/10 group cursor-default relative overflow-hidden opacity-0">
-              {/* Highlight sweep background on hover */}
-              <div className="absolute inset-0 bg-gradient-to-r from-zinid-blue/5 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-              
-              <span className="relative z-10 text-xl md:text-2xl font-mono text-zinc-600 transition-colors duration-500 group-hover:text-zinid-blue shrink-0">
-                {pillar.num}
-              </span>
-              <h3 className="relative z-10 text-4xl md:text-6xl lg:text-8xl font-bold tracking-tighter text-zinc-300 transition-colors duration-500 group-hover:text-white">
-                {pillar.title}
-              </h3>
-            </div>
-          ))}
+        {/* Coluna Direita (Scrollável) */}
+        <div className="lg:w-7/12 flex flex-col pt-10 lg:pt-32 pb-20">
+          <div className="flex flex-col">
+            {pillars.map((pillar, index) => (
+              <div 
+                key={pillar.num} 
+                className={`pillar-row flex flex-col py-12 md:py-16 border-white/10 group cursor-default relative overflow-hidden opacity-0 ${index === 0 ? 'border-t-0' : 'border-t'}`}
+              >
+                {/* Highlight Hover Background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-zinid-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out pointer-events-none rounded-xl" />
+                
+                <div className="flex justify-between items-baseline mb-6 relative z-10">
+                  <h3 className="text-3xl md:text-5xl font-bold tracking-tighter text-zinc-300 transition-colors duration-500 group-hover:text-white">
+                    {pillar.title}
+                  </h3>
+                  <span className="text-lg md:text-2xl font-mono font-medium text-zinc-600 transition-colors duration-500 group-hover:text-zinid-blue">
+                    {pillar.num}
+                  </span>
+                </div>
+                
+                <p className="text-base md:text-lg text-zinc-500 group-hover:text-zinc-300 transition-colors duration-500 relative z-10 max-w-md pr-8 leading-relaxed">
+                  {pillar.desc}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
+
       </div>
     </section>
   );
