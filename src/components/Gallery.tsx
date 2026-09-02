@@ -11,12 +11,12 @@ if (typeof window !== "undefined") {
 }
 
 const images = [
-  "/images.jpg",
-  "/images1.jpg",
-  "/images2.jfif",
-  "/images3.jfif",
-  "/images4.jfif",
-  "/images5.jfif",
+  "/gallery_1.jpg",
+  "/gallery_2.jpg",
+  "/gallery_3.jpg",
+  "/gallery_4.jpg",
+  "/gallery_5.jpg",
+  "/gallery_6.jpg",
 ];
 
 export function Gallery() {
