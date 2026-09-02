@@ -18,34 +18,96 @@ export function Hero() {
 
   const [isReady, setIsReady] = useState(false);
   const imagesRef = useRef<HTMLImageElement[]>([]);
+  const currentFrameRef = useRef(0);
 
-  // Preload images
+  const drawFrame = (index: number) => {
+    const canvas = canvasRef.current;
+    // alpha: false otimiza a renderização pois o canvas não precisa lidar com transparência
+    const ctx = canvas?.getContext("2d", { alpha: false });
+    if (!canvas || !ctx) return;
+    
+    const img = imagesRef.current[index];
+    if (!img) return;
+
+    if (img.complete && img.naturalWidth > 0) {
+      if (canvas.width !== img.naturalWidth) {
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+      }
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    }
+  };
+
+  // Preload progressivo e inteligente
   useEffect(() => {
-    let loadedCount = 0;
-    const images: HTMLImageElement[] = [];
+    if (imagesRef.current.length > 0) return; // Previne duplicidade no Strict Mode
 
-    for (let i = 1; i <= FRAME_COUNT; i++) {
+    const images: HTMLImageElement[] = [];
+    for (let i = 0; i < FRAME_COUNT; i++) {
       const img = new Image();
-      const frameNumber = String(i).padStart(4, "0");
-      img.src = `/hero-sequence/frame_${frameNumber}.jpg`;
-      img.onload = () => {
-        loadedCount++;
-        if (loadedCount === 1) {
-          // Draw first frame when the first image is loaded
-          const ctx = canvasRef.current?.getContext("2d");
-          if (ctx && canvasRef.current) {
-            canvasRef.current.width = img.width;
-            canvasRef.current.height = img.height;
-            ctx.drawImage(img, 0, 0);
-          }
+      img.addEventListener("load", () => {
+        // Se a imagem que acabou de carregar for o frame atual, desenha imediatamente
+        if (currentFrameRef.current === i) {
+          drawFrame(i);
         }
-        if (loadedCount === FRAME_COUNT) {
-          setIsReady(true);
-        }
-      };
+      });
       images.push(img);
     }
     imagesRef.current = images;
+
+    const preloadRest = () => {
+      let currentIndex = 1;
+      
+      const loadNextBatch = () => {
+        if (currentIndex >= FRAME_COUNT) {
+          setIsReady(true);
+          return;
+        }
+        
+        const batchSize = 6; // Carrega 6 frames por vez em background
+        let loadedInBatch = 0;
+        const toLoad = Math.min(batchSize, FRAME_COUNT - currentIndex);
+        
+        const onComplete = () => {
+          loadedInBatch++;
+          if (loadedInBatch === toLoad) {
+             currentIndex += toLoad;
+             requestAnimationFrame(loadNextBatch);
+          }
+        };
+
+        for (let i = 0; i < toLoad; i++) {
+          const idx = currentIndex + i;
+          const img = imagesRef.current[idx];
+          
+          if (img.src) {
+             if (img.complete) {
+               onComplete();
+             } else {
+               img.addEventListener("load", onComplete, { once: true });
+               img.addEventListener("error", onComplete, { once: true });
+             }
+             continue;
+          }
+          
+          img.addEventListener("load", onComplete, { once: true });
+          img.addEventListener("error", onComplete, { once: true }); // Continua se falhar
+          img.src = `/hero-sequence/frame_${String(idx + 1).padStart(4, "0")}.jpg`;
+        }
+      };
+      
+      // Inicia com leve delay para priorizar recursos críticos da página
+      setTimeout(loadNextBatch, 200);
+    };
+
+    // Inicia pelo primeiro frame
+    const firstImg = images[0];
+    firstImg.addEventListener("load", () => {
+      preloadRest();
+      ScrollTrigger.refresh(); // Atualiza trigger com dimensões reais
+    }, { once: true });
+    firstImg.src = "/hero-sequence/frame_0001.jpg";
+
   }, []);
 
   useGSAP(() => {
@@ -55,26 +117,29 @@ export function Hero() {
     textsTl.fromTo(".hero-word", { opacity: 0, y: 40, rotateX: -20 }, { opacity: 1, y: 0, rotateX: 0, duration: 1, stagger: 0.1, ease: "power4.out" }, "-=0.4");
     textsTl.fromTo(".hero-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, "-=0.6");
 
-    if (!imagesRef.current.length || !canvasRef.current) return;
-
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
+    // Apenas aborta se não houver canvas. Não podemos checar imagesRef.current.length aqui
+    // pois em produção esse hook roda ANTES do useEffect popular o array, o que causava o bug!
+    if (!canvasRef.current) return;
 
     let frameReq: number;
-    const frameData = { currentFrame: 0 };
+
+    const requestFrameLoad = (index: number) => {
+       const img = imagesRef.current[index];
+       if (img && !img.src) {
+          // Se o usuário scrollar rápido, força o carregamento imediato do frame atual
+          img.src = `/hero-sequence/frame_${String(index + 1).padStart(4, "0")}.jpg`;
+       }
+    };
 
     const updateCanvas = () => {
-      if (!context) return;
-      const img = imagesRef.current[frameData.currentFrame];
-      if (img && img.complete) {
-        context.drawImage(img, 0, 0, canvas.width, canvas.height);
-      }
+      requestFrameLoad(currentFrameRef.current);
+      drawFrame(currentFrameRef.current);
     };
 
     ScrollTrigger.create({
       trigger: container.current,
       start: "top top",
-      end: "+=500%", // Scroll mais curto e rápido
+      end: "+=700%", // Scroll mais curto e rápido
       pin: true,
       scrub: 0.5, // Adiciona uma suavidade no scrub (meio segundo de atraso para inércia)
       anticipatePin: 1,
@@ -85,8 +150,8 @@ export function Hero() {
           Math.floor(self.progress * FRAME_COUNT)
         );
 
-        if (frameData.currentFrame !== frameIndex) {
-          frameData.currentFrame = frameIndex;
+        if (currentFrameRef.current !== frameIndex) {
+          currentFrameRef.current = frameIndex;
           if (frameReq) cancelAnimationFrame(frameReq);
           frameReq = requestAnimationFrame(updateCanvas);
         }
@@ -102,7 +167,7 @@ export function Hero() {
       if (frameReq) cancelAnimationFrame(frameReq);
     };
 
-  }, { scope: container }); // Removi a dependência de isReady para o texto animar independente das imagens carregarem 100%
+  }, { scope: container });
 
   return (
     <section ref={container} className="relative w-full h-[100dvh] bg-zinid-black overflow-hidden flex flex-col lg:flex-row">
