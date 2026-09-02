@@ -41,7 +41,8 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
     offset: ["start end", "end start"]
   });
   
-  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+  // Aumentei o range do parallax para ficar bem mais visível
+  const y = useTransform(scrollYProgress, [0, 1], ["-25%", "25%"]);
 
   return (
     <motion.div
@@ -58,8 +59,8 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       className={`group relative min-h-[400px] md:min-h-[450px] bg-zinid-dark overflow-hidden rounded-2xl cursor-default ${service.colSpan} border border-white/5 hover:border-zinid-blue/40 transition-colors duration-500 hover:shadow-[0_0_40px_rgba(0,71,255,0.15)]`}
       style={{ perspective: "1000px" }}
     >
-      {/* Imagem com Parallax e Zoom no hover */}
-      <motion.div style={{ y }} className="absolute inset-0 w-full h-[130%] -top-[15%]">
+      {/* Imagem com Parallax mais forte e Zoom no hover */}
+      <motion.div style={{ y }} className="absolute inset-0 w-full h-[150%] -top-[25%]">
         <Image
           src={service.image}
           alt={service.title}

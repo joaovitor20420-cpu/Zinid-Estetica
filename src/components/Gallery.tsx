@@ -59,6 +59,20 @@ export function Gallery() {
           scrub: 1,
         }
       });
+
+      // Internal Parallax for images
+      gsap.utils.toArray(".gallery-img-inner").forEach((img: any) => {
+        gsap.to(img, {
+          yPercent: 20,
+          ease: "none",
+          scrollTrigger: {
+            trigger: img.parentElement,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          }
+        });
+      });
     });
 
     // Header reveal
@@ -117,30 +131,30 @@ export function Gallery() {
           {/* Column 1 - Moves up fastest */}
           <div className="col-1 flex flex-col gap-6">
             <div className="relative aspect-[3/4] w-full overflow-hidden bg-zinid-dark rounded-xl">
-              <Image src={images[0]} alt="Detalhe 1" fill className="object-cover" />
+              <Image src={images[0]} alt="Detalhe 1" fill className="object-cover scale-125 gallery-img-inner" />
             </div>
             <div className="relative aspect-square w-full overflow-hidden bg-zinid-dark rounded-xl">
-              <Image src={images[1]} alt="Detalhe 2" fill className="object-cover" />
+              <Image src={images[1]} alt="Detalhe 2" fill className="object-cover scale-125 gallery-img-inner" />
             </div>
           </div>
 
           {/* Column 2 - Moves down/slower to create contrast */}
           <div className="col-2 flex flex-col gap-6">
             <div className="relative aspect-square w-full overflow-hidden bg-zinid-dark rounded-xl">
-              <Image src={images[2]} alt="Detalhe 3" fill className="object-cover" />
+              <Image src={images[2]} alt="Detalhe 3" fill className="object-cover scale-125 gallery-img-inner" />
             </div>
             <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinid-dark rounded-xl">
-              <Image src={images[3]} alt="Detalhe 4" fill className="object-cover" />
+              <Image src={images[3]} alt="Detalhe 4" fill className="object-cover scale-125 gallery-img-inner" />
             </div>
           </div>
 
           {/* Column 3 - Moves up medium */}
           <div className="col-3 flex flex-col gap-6">
             <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinid-dark rounded-xl">
-              <Image src={images[4]} alt="Detalhe 5" fill className="object-cover" />
+              <Image src={images[4]} alt="Detalhe 5" fill className="object-cover scale-125 gallery-img-inner" />
             </div>
             <div className="relative aspect-square w-full overflow-hidden bg-zinid-dark rounded-xl">
-              <Image src={images[5]} alt="Detalhe 6" fill className="object-cover" />
+              <Image src={images[5]} alt="Detalhe 6" fill className="object-cover scale-125 gallery-img-inner" />
             </div>
           </div>
         </div>

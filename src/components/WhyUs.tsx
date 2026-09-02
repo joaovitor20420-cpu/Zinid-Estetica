@@ -37,6 +37,7 @@ export function WhyUs() {
   const marquee = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const pRef = useRef<HTMLParagraphElement>(null);
+  const bgSphere = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     // Kinetic Marquee animado pelo scroll
@@ -48,6 +49,18 @@ export function WhyUs() {
         start: "top bottom",
         end: "bottom top",
         scrub: 1, 
+      }
+    });
+
+    // Parallax background sphere
+    gsap.to(bgSphere.current, {
+      y: 500, // Move down significantly as you scroll down
+      ease: "none",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.5,
       }
     });
 
@@ -106,6 +119,9 @@ export function WhyUs() {
   return (
     <section ref={container} id="sobre" className="py-32 bg-black border-y border-white/5 relative overflow-hidden">
       
+      {/* Background Parallax Sphere */}
+      <div ref={bgSphere} className="absolute -top-32 left-1/4 w-[600px] h-[600px] bg-zinid-blue/15 rounded-full blur-[150px] pointer-events-none" />
+
       {/* Kinetic Marquee Background */}
       <div className="absolute top-32 left-0 w-[200vw] overflow-hidden whitespace-nowrap pointer-events-none opacity-[0.02] flex items-center select-none">
         <div ref={marquee} className="flex gap-4 text-[150px] font-bold tracking-tighter text-white w-max">
