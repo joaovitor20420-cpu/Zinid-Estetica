@@ -105,7 +105,7 @@ export function WhyUs() {
           <h2 ref={heading} className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[1.05] mb-12 text-white">
             MAIS DO QUE LIMPEZA.
             <br />
-            <span className="text-zinc-600">É CUIDADO COM SEU CARRO.</span>
+            <span className="text-zinid-blue drop-shadow-[0_0_15px_rgba(0,71,255,0.2)]">É CUIDADO COM SEU CARRO.</span>
           </h2>
           
           <p ref={pRef} className="text-2xl md:text-3xl lg:text-4xl text-zinc-400 max-w-[35ch] leading-snug font-light opacity-0">
@@ -118,9 +118,9 @@ export function WhyUs() {
           {pillars.map((pillar) => (
             <div key={pillar.num} className="pillar-row flex flex-col md:flex-row md:items-baseline gap-4 md:gap-12 py-10 md:py-16 border-b border-white/10 group cursor-default relative overflow-hidden opacity-0">
               {/* Highlight sweep background on hover */}
-              <div className="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+              <div className="absolute inset-0 bg-gradient-to-r from-zinid-blue/5 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
               
-              <span className="relative z-10 text-xl md:text-2xl font-mono text-zinc-600 transition-colors duration-500 group-hover:text-zinc-300 shrink-0">
+              <span className="relative z-10 text-xl md:text-2xl font-mono text-zinc-600 transition-colors duration-500 group-hover:text-zinid-blue shrink-0">
                 {pillar.num}
               </span>
               <h3 className="relative z-10 text-4xl md:text-6xl lg:text-8xl font-bold tracking-tighter text-zinc-300 transition-colors duration-500 group-hover:text-white">

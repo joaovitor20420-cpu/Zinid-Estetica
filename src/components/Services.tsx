@@ -8,25 +8,25 @@ const services = [
   {
     title: "Higienização Automotiva",
     description: "Limpeza profunda de bancos, carpetes e teto, eliminando odores e bactérias pela raiz.",
-    image: "/images2.jfif",
+    image: "/service_interior_deep.jpg",
     colSpan: "md:col-span-2",
   },
   {
     title: "Limpeza Detalhada",
     description: "Foco nos mínimos detalhes, cantos e frestas que a lavagem comum não alcança.",
-    image: "/images3.jfif",
+    image: "/service_detail_brush.jpg",
     colSpan: "md:col-span-1",
   },
   {
     title: "Cuidados Externos",
     description: "Lavagem técnica, descontaminação de pintura e aplicação de proteção.",
-    image: "/images4.jfif",
+    image: "/service_exterior_paint.jpg",
     colSpan: "md:col-span-1",
   },
   {
     title: "Cuidados Internos",
     description: "Revitalização de plásticos e hidratação rigorosa de bancos de couro.",
-    image: "/images5.jfif",
+    image: "/service_interior_leather.jpg",
     colSpan: "md:col-span-2",
   },
 ];
