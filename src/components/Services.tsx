@@ -56,7 +56,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         ease: [0.16, 1, 0.3, 1] 
       }}
       whileHover={{ y: -10 }}
-      className={`group relative min-h-[400px] md:min-h-[450px] bg-zinid-dark overflow-hidden rounded-2xl cursor-default ${service.colSpan} border border-white/5 hover:border-zinid-blue/40 transition-colors duration-500 hover:shadow-[0_0_40px_rgba(0,71,255,0.15)]`}
+      className={`group relative min-h-[400px] md:min-h-[450px] bg-zinid-dark overflow-hidden rounded-2xl cursor-default ${service.colSpan} border border-zinid-blue/20 shadow-[0_0_30px_rgba(0,71,255,0.05)] md:border-white/5 md:shadow-none transition-all duration-500 md:hover:border-zinid-blue/40 md:hover:shadow-[0_0_40px_rgba(0,71,255,0.15)]`}
       style={{ perspective: "1000px" }}
     >
       {/* Imagem com Parallax mais forte e Zoom no hover */}
@@ -65,23 +65,23 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
           src={service.image}
           alt={service.title}
           fill
-          className="object-cover transition-all duration-700 ease-out grayscale-[0.8] opacity-30 group-hover:grayscale-0 group-hover:opacity-70 group-hover:scale-110"
+          className="object-cover transition-all duration-700 ease-out grayscale-0 opacity-60 scale-105 md:grayscale-[0.8] md:opacity-30 md:scale-100 md:group-hover:grayscale-0 md:group-hover:opacity-70 md:group-hover:scale-110"
         />
       </motion.div>
 
       {/* Gradiente escuro para contraste do texto */}
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
       
-      {/* Luz radial azul no hover no fundo */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(0,71,255,0.15),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+      {/* Luz radial azul - Ativa no mobile por padrão, hover no desktop */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(0,71,255,0.25),transparent_60%)] opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-700" />
       
       <div className="absolute inset-x-0 bottom-0 p-8 md:p-10 flex flex-col justify-end h-full z-10 pointer-events-none">
         <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:translate-y-12 group-hover:translate-y-0">
           <h3 className="text-2xl md:text-3xl font-bold mb-2 text-white tracking-tight flex items-center justify-between">
             {service.title}
-            {/* Ícone de Seta em Círculo Neon */}
-            <div className="w-12 h-12 rounded-full bg-zinid-blue/10 flex items-center justify-center opacity-0 -translate-x-4 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-x-0 hidden md:flex border border-zinid-blue/30 shadow-[0_0_15px_rgba(0,71,255,0.3)]">
-              <ArrowRight className="w-5 h-5 text-zinid-blue" />
+            {/* Ícone de Seta em Círculo Neon - Visível no mobile, animado no hover do desktop */}
+            <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-full bg-zinid-blue/10 flex items-center justify-center border border-zinid-blue/30 shadow-[0_0_15px_rgba(0,71,255,0.3)] transition-all duration-500 ease-out opacity-100 translate-x-0 md:opacity-0 md:-translate-x-4 md:group-hover:opacity-100 md:group-hover:translate-x-0">
+              <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-zinid-blue" />
             </div>
           </h3>
           
