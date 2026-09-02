@@ -19,6 +19,7 @@ export function Hero() {
   const [isReady, setIsReady] = useState(false);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef(0);
+  const folderRef = useRef("hero-sequence");
 
   const drawFrame = (index: number) => {
     const canvas = canvasRef.current;
@@ -41,6 +42,9 @@ export function Hero() {
   // Preload progressivo e inteligente
   useEffect(() => {
     if (imagesRef.current.length > 0) return; // Previne duplicidade no Strict Mode
+
+    // Detecta se é mobile no carregamento inicial
+    folderRef.current = window.innerWidth < 768 ? "hero-sequence-mobile" : "hero-sequence";
 
     const images: HTMLImageElement[] = [];
     for (let i = 0; i < FRAME_COUNT; i++) {
@@ -92,7 +96,7 @@ export function Hero() {
           
           img.addEventListener("load", onComplete, { once: true });
           img.addEventListener("error", onComplete, { once: true }); // Continua se falhar
-          img.src = `/hero-sequence/frame_${String(idx + 1).padStart(4, "0")}.jpg`;
+          img.src = `/${folderRef.current}/frame_${String(idx + 1).padStart(4, "0")}.jpg`;
         }
       };
       
@@ -106,7 +110,7 @@ export function Hero() {
       preloadRest();
       ScrollTrigger.refresh(); // Atualiza trigger com dimensões reais
     }, { once: true });
-    firstImg.src = "/hero-sequence/frame_0001.jpg";
+    firstImg.src = `/${folderRef.current}/frame_0001.jpg`;
 
   }, []);
 
@@ -127,7 +131,7 @@ export function Hero() {
        const img = imagesRef.current[index];
        if (img && !img.src) {
           // Se o usuário scrollar rápido, força o carregamento imediato do frame atual
-          img.src = `/hero-sequence/frame_${String(index + 1).padStart(4, "0")}.jpg`;
+          img.src = `/${folderRef.current}/frame_${String(index + 1).padStart(4, "0")}.jpg`;
        }
     };
 
