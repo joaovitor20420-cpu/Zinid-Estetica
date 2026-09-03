@@ -139,7 +139,7 @@ export function Hero() {
 
     // Detecta se é mobile para ajustar o tempo/distância de rolagem
     const isMobile = window.innerWidth < 768;
-    const scrollDistance = isMobile ? "+=200%" : "+=500%";
+    const scrollDistance = isMobile ? "+=300%" : "+=500%";
 
     // Timeline principal sincronizada com o Scroll (Scrub)
     const stTl = gsap.timeline({
@@ -212,7 +212,7 @@ export function Hero() {
       </div>
 
       {/* Foreground Content - Título Principal */}
-      <div className="relative z-20 flex-1 flex flex-col justify-end md:justify-center px-6 pt-32 pb-24 md:pb-16 lg:px-16 xl:px-24 lg:pt-0 pointer-events-none">
+      <div className="relative z-20 flex-1 flex flex-col justify-end md:justify-center px-6 pt-32 pb-8 md:pb-16 lg:px-16 xl:px-24 lg:pt-0 pointer-events-none">
         <div className="hero-main-content max-w-xl pointer-events-auto">
           <div className="hero-eyebrow opacity-0">
             <span className="inline-block text-zinid-silver text-[10px] md:text-[11px] uppercase tracking-[0.22em] font-medium mb-4 md:mb-8">
@@ -258,31 +258,31 @@ export function Hero() {
       {/* Floating Copies para a Animação Cinemática de Scroll */}
       <div className="absolute inset-0 z-30 pointer-events-none">
          {/* Copy 1 - Direita Desktop, Fundo Mobile */}
-         <div className="copy-1 absolute bottom-[5%] md:top-1/2 md:-translate-y-1/2 md:bottom-auto w-full md:w-auto md:right-[8%] lg:right-[12%] px-4 md:px-0 max-w-full md:max-w-md opacity-0">
-            <div className="bg-zinid-dark/40 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-3xl text-center md:text-right shadow-[0_30px_60px_rgba(0,0,0,0.5)] relative overflow-hidden">
+         <div className="copy-1 absolute bottom-6 md:top-1/2 md:-translate-y-1/2 md:bottom-auto w-full md:w-auto md:right-[8%] lg:right-[12%] px-4 md:px-0 max-w-full md:max-w-md opacity-0">
+            <div className="bg-zinid-dark/40 backdrop-blur-xl border border-white/10 p-6 md:p-10 rounded-3xl text-center md:text-right shadow-[0_30px_60px_rgba(0,0,0,0.5)] relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-zinid-blue/20 blur-[50px] -translate-y-1/2 translate-x-1/2 rounded-full" />
-              <span className="inline-block text-zinid-blue text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-4">01 &mdash; Precisão Absoluta</span>
-              <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">Detalhes que <br/><span className="text-zinc-400">Importam.</span></h3>
+              <span className="inline-block text-zinid-blue text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-3 md:mb-4">01 &mdash; Precisão Absoluta</span>
+              <h3 className="text-3xl md:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight">Detalhes que <br className="hidden md:block"/><span className="text-zinc-400">Importam.</span></h3>
               <p className="text-zinc-300 text-sm md:text-base leading-relaxed font-light">Cada milímetro do seu veículo é inspecionado e tratado com os produtos mais nobres do mercado mundial.</p>
             </div>
          </div>
 
          {/* Copy 2 - Esquerda Desktop, Fundo Mobile */}
-         <div className="copy-2 absolute bottom-[5%] md:top-1/2 md:-translate-y-1/2 md:bottom-auto w-full md:w-auto md:left-[8%] lg:left-[12%] px-4 md:px-0 max-w-full md:max-w-md opacity-0">
-            <div className="bg-zinid-dark/40 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-3xl text-center md:text-left shadow-[0_30px_60px_rgba(0,0,0,0.5)] relative overflow-hidden">
+         <div className="copy-2 absolute bottom-6 md:top-1/2 md:-translate-y-1/2 md:bottom-auto w-full md:w-auto md:left-[8%] lg:left-[12%] px-4 md:px-0 max-w-full md:max-w-md opacity-0">
+            <div className="bg-zinid-dark/40 backdrop-blur-xl border border-white/10 p-6 md:p-10 rounded-3xl text-center md:text-left shadow-[0_30px_60px_rgba(0,0,0,0.5)] relative overflow-hidden">
               <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 blur-[50px] -translate-y-1/2 -translate-x-1/2 rounded-full" />
-              <span className="inline-block text-zinc-400 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-4">02 &mdash; Escudo Invisível</span>
-              <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight bg-gradient-to-br from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">Proteção<br/>Absoluta.</h3>
+              <span className="inline-block text-zinc-400 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-3 md:mb-4">02 &mdash; Escudo Invisível</span>
+              <h3 className="text-3xl md:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight bg-gradient-to-br from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">Proteção <br className="hidden md:block"/>Absoluta.</h3>
               <p className="text-zinc-300 text-sm md:text-base leading-relaxed font-light">Vitrificação e selantes avançados que não apenas mantêm o brilho extasiante, mas blindam a pintura contra o tempo.</p>
             </div>
          </div>
 
          {/* Copy 3 - Direita Desktop, Fundo Mobile */}
-         <div className="copy-3 absolute bottom-[5%] md:top-1/2 md:-translate-y-1/2 md:bottom-auto w-full md:w-auto md:right-[8%] lg:right-[12%] px-4 md:px-0 max-w-full md:max-w-md opacity-0">
-            <div className="bg-zinid-dark/40 backdrop-blur-xl border border-zinid-blue/20 p-8 md:p-10 rounded-3xl text-center md:text-right shadow-[0_30px_60px_rgba(0,71,255,0.1)] relative overflow-hidden group">
+         <div className="copy-3 absolute bottom-6 md:top-1/2 md:-translate-y-1/2 md:bottom-auto w-full md:w-auto md:right-[8%] lg:right-[12%] px-4 md:px-0 max-w-full md:max-w-md opacity-0">
+            <div className="bg-zinid-dark/40 backdrop-blur-xl border border-zinid-blue/20 p-6 md:p-10 rounded-3xl text-center md:text-right shadow-[0_30px_60px_rgba(0,71,255,0.1)] relative overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-br from-zinid-blue/10 to-transparent opacity-50" />
-              <span className="relative inline-block text-zinid-blue text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-4">03 &mdash; Essência Nova</span>
-              <h3 className="relative text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">Renovação<br/>Interna.</h3>
+              <span className="relative inline-block text-zinid-blue text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-3 md:mb-4">03 &mdash; Essência Nova</span>
+              <h3 className="relative text-3xl md:text-5xl font-bold text-white mb-3 md:mb-4 tracking-tight">Renovação <br className="hidden md:block"/>Interna.</h3>
               <p className="relative text-zinc-300 text-sm md:text-base leading-relaxed font-light">Higienização profunda e hidratação rigorosa de plásticos e couro. O seu interior de volta ao cheiro e textura de novo.</p>
             </div>
          </div>
