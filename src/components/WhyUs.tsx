@@ -38,6 +38,8 @@ export function WhyUs() {
   const heading = useRef<HTMLHeadingElement>(null);
   const pRef = useRef<HTMLParagraphElement>(null);
   const bgSphere = useRef<HTMLDivElement>(null);
+  const progressBar = useRef<HTMLDivElement>(null);
+  const progressWrapper = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     // Kinetic Marquee animado pelo scroll
@@ -95,6 +97,34 @@ export function WhyUs() {
         }
       }
     );
+
+    // Fade in da barra de progresso
+    gsap.fromTo(
+      progressWrapper.current,
+      { opacity: 0 },
+      {
+        opacity: 1,
+        duration: 1,
+        delay: 0.4,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: pRef.current,
+          start: "top 80%",
+        }
+      }
+    );
+
+    // Animação da barra de progresso em si
+    gsap.to(progressBar.current, {
+      scaleY: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top center",
+        end: "bottom bottom",
+        scrub: true,
+      }
+    });
 
     // Entrada escalonada dos pilares na direita
     gsap.utils.toArray(".pillar-row").forEach((row: any) => {
@@ -154,6 +184,21 @@ export function WhyUs() {
             <p ref={pRef} className="text-lg md:text-xl text-zinc-400 max-w-sm leading-relaxed font-light opacity-0">
               Na Zinid, cada detalhe importa. Nosso objetivo é entregar um resultado que você perceba no primeiro olhar, combinando técnicas avançadas com perfeccionismo absurdo.
             </p>
+
+            {/* Scroll Progress Indicator */}
+            <div ref={progressWrapper} className="hidden lg:flex items-start gap-4 mt-16 opacity-0">
+              <div className="w-[2px] h-32 bg-white/10 rounded-full overflow-hidden relative">
+                <div ref={progressBar} className="absolute top-0 left-0 w-full h-full bg-zinid-blue origin-top scale-y-0" />
+              </div>
+              <div className="flex flex-col gap-2 pt-2">
+                 <span className="text-white text-xs font-bold uppercase tracking-[0.2em]">
+                   Nossos Pilares
+                 </span>
+                 <span className="text-zinc-600 text-[10px] uppercase tracking-widest">
+                   Role para descobrir
+                 </span>
+              </div>
+            </div>
           </div>
         </div>
 
