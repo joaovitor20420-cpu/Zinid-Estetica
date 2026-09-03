@@ -115,14 +115,12 @@ export function Hero() {
   }, []);
 
   useGSAP(() => {
-    // Animação de Entrada dos Textos
+    // Animação de Entrada dos Textos (Ao carregar a página)
     const textsTl = gsap.timeline();
     textsTl.fromTo(".hero-eyebrow", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
     textsTl.fromTo(".hero-word", { opacity: 0, y: 40, rotateX: -20 }, { opacity: 1, y: 0, rotateX: 0, duration: 1, stagger: 0.1, ease: "power4.out" }, "-=0.4");
     textsTl.fromTo(".hero-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, "-=0.6");
 
-    // Apenas aborta se não houver canvas. Não podemos checar imagesRef.current.length aqui
-    // pois em produção esse hook roda ANTES do useEffect popular o array, o que causava o bug!
     if (!canvasRef.current) return;
 
     let frameReq: number;
@@ -130,7 +128,6 @@ export function Hero() {
     const requestFrameLoad = (index: number) => {
        const img = imagesRef.current[index];
        if (img && !img.src) {
-          // Se o usuário scrollar rápido, força o carregamento imediato do frame atual
           img.src = `/${folderRef.current}/frame_${String(index + 1).padStart(4, "0")}.jpg`;
        }
     };
@@ -140,27 +137,53 @@ export function Hero() {
       drawFrame(currentFrameRef.current);
     };
 
-    ScrollTrigger.create({
-      trigger: container.current,
-      start: "top top",
-      end: "+=700%", // Scroll mais curto e rápido
-      pin: true,
-      scrub: 0.5, // Adiciona uma suavidade no scrub (meio segundo de atraso para inércia)
-      anticipatePin: 1,
-      onUpdate: (self) => {
-        // Mapeia o progresso (0 a 1) para o índice do frame (0 a 299)
-        const frameIndex = Math.min(
-          FRAME_COUNT - 1,
-          Math.floor(self.progress * FRAME_COUNT)
-        );
+    // Detecta se é mobile para ajustar o tempo/distância de rolagem
+    const isMobile = window.innerWidth < 768;
+    const scrollDistance = isMobile ? "+=200%" : "+=500%";
 
-        if (currentFrameRef.current !== frameIndex) {
-          currentFrameRef.current = frameIndex;
-          if (frameReq) cancelAnimationFrame(frameReq);
-          frameReq = requestAnimationFrame(updateCanvas);
+    // Timeline principal sincronizada com o Scroll (Scrub)
+    const stTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container.current,
+        start: "top top",
+        end: scrollDistance, // Duração do Scroll adaptada
+        pin: true,
+        scrub: 0.5,
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          // Mantém a sincronia dos frames do canvas
+          const frameIndex = Math.min(
+            FRAME_COUNT - 1,
+            Math.floor(self.progress * FRAME_COUNT)
+          );
+
+          if (currentFrameRef.current !== frameIndex) {
+            currentFrameRef.current = frameIndex;
+            if (frameReq) cancelAnimationFrame(frameReq);
+            frameReq = requestAnimationFrame(updateCanvas);
+          }
         }
       }
     });
+
+    // Orquestração dos Textos durante o Scroll
+    // Oculta o título principal logo no início
+    stTl.to(".hero-main-content", { opacity: 0, y: -50, duration: 1, ease: "power2.inOut" }, 0)
+      
+      // Copy 1 (Surge e Desaparece)
+      .fromTo(".copy-1", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, 1.5)
+      .to(".copy-1", { opacity: 0, y: -50, duration: 1, ease: "power2.in" }, 3)
+      
+      // Copy 2 (Surge e Desaparece)
+      .fromTo(".copy-2", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, 4.5)
+      .to(".copy-2", { opacity: 0, y: -50, duration: 1, ease: "power2.in" }, 6)
+      
+      // Copy 3 (Surge e fica até quase o final)
+      .fromTo(".copy-3", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, 7.5)
+      .to(".copy-3", { opacity: 0, y: -50, duration: 1, ease: "power2.in" }, 9.5)
+      
+      // Tempo extra para o vídeo terminar o movimento
+      .to({}, { duration: 1 }, 10.5);
 
     setTimeout(() => {
       ScrollTrigger.sort();
@@ -188,9 +211,9 @@ export function Hero() {
         <div className="absolute inset-0 md:hidden bg-gradient-to-r from-zinid-black/40 to-transparent z-10" />
       </div>
 
-      {/* Foreground Content */}
+      {/* Foreground Content - Título Principal */}
       <div className="relative z-20 flex-1 flex flex-col justify-end md:justify-center px-6 pt-32 pb-24 md:pb-16 lg:px-16 xl:px-24 lg:pt-0 pointer-events-none">
-        <div className="max-w-xl pointer-events-auto">
+        <div className="hero-main-content max-w-xl pointer-events-auto">
           <div className="hero-eyebrow opacity-0">
             <span className="inline-block text-zinid-silver text-[10px] md:text-[11px] uppercase tracking-[0.22em] font-medium mb-4 md:mb-8">
               Zinid Estética Automotiva
@@ -230,6 +253,39 @@ export function Hero() {
             </a>
           </div>
         </div>
+      </div>
+
+      {/* Floating Copies para a Animação Cinemática de Scroll */}
+      <div className="absolute inset-0 z-30 pointer-events-none">
+         {/* Copy 1 - Direita Desktop, Fundo Mobile */}
+         <div className="copy-1 absolute bottom-[5%] md:top-1/2 md:-translate-y-1/2 md:bottom-auto w-full md:w-auto md:right-[8%] lg:right-[12%] px-4 md:px-0 max-w-full md:max-w-md opacity-0">
+            <div className="bg-zinid-dark/40 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-3xl text-center md:text-right shadow-[0_30px_60px_rgba(0,0,0,0.5)] relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-zinid-blue/20 blur-[50px] -translate-y-1/2 translate-x-1/2 rounded-full" />
+              <span className="inline-block text-zinid-blue text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-4">01 &mdash; Precisão Absoluta</span>
+              <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">Detalhes que <br/><span className="text-zinc-400">Importam.</span></h3>
+              <p className="text-zinc-300 text-sm md:text-base leading-relaxed font-light">Cada milímetro do seu veículo é inspecionado e tratado com os produtos mais nobres do mercado mundial.</p>
+            </div>
+         </div>
+
+         {/* Copy 2 - Esquerda Desktop, Fundo Mobile */}
+         <div className="copy-2 absolute bottom-[5%] md:top-1/2 md:-translate-y-1/2 md:bottom-auto w-full md:w-auto md:left-[8%] lg:left-[12%] px-4 md:px-0 max-w-full md:max-w-md opacity-0">
+            <div className="bg-zinid-dark/40 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-3xl text-center md:text-left shadow-[0_30px_60px_rgba(0,0,0,0.5)] relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 blur-[50px] -translate-y-1/2 -translate-x-1/2 rounded-full" />
+              <span className="inline-block text-zinc-400 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-4">02 &mdash; Escudo Invisível</span>
+              <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight bg-gradient-to-br from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">Proteção<br/>Absoluta.</h3>
+              <p className="text-zinc-300 text-sm md:text-base leading-relaxed font-light">Vitrificação e selantes avançados que não apenas mantêm o brilho extasiante, mas blindam a pintura contra o tempo.</p>
+            </div>
+         </div>
+
+         {/* Copy 3 - Direita Desktop, Fundo Mobile */}
+         <div className="copy-3 absolute bottom-[5%] md:top-1/2 md:-translate-y-1/2 md:bottom-auto w-full md:w-auto md:right-[8%] lg:right-[12%] px-4 md:px-0 max-w-full md:max-w-md opacity-0">
+            <div className="bg-zinid-dark/40 backdrop-blur-xl border border-zinid-blue/20 p-8 md:p-10 rounded-3xl text-center md:text-right shadow-[0_30px_60px_rgba(0,71,255,0.1)] relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-br from-zinid-blue/10 to-transparent opacity-50" />
+              <span className="relative inline-block text-zinid-blue text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] mb-4">03 &mdash; Essência Nova</span>
+              <h3 className="relative text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">Renovação<br/>Interna.</h3>
+              <p className="relative text-zinc-300 text-sm md:text-base leading-relaxed font-light">Higienização profunda e hidratação rigorosa de plásticos e couro. O seu interior de volta ao cheiro e textura de novo.</p>
+            </div>
+         </div>
       </div>
     </section>
   );
