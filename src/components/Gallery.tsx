@@ -10,13 +10,13 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
 }
 
-const images = [
-  "/gallery_1.jpg",
-  "/gallery_2.jpg",
-  "/gallery_3.jpg",
-  "/gallery_4.jpg",
-  "/gallery_5.jpg",
-  "/gallery_6.jpg",
+const galleryItems = [
+  { src: "/gallery_1.jpg", title: "Limpeza Detalhada de Motor" },
+  { src: "/gallery_2.jpg", title: "Polimento Técnico" },
+  { src: "/gallery_3.jpg", title: "Higienização Interna" },
+  { src: "/gallery_4.jpg", title: "Vitrificação de Pintura" },
+  { src: "/gallery_5.jpg", title: "Revitalização de Plásticos" },
+  { src: "/gallery_6.jpg", title: "Detalhamento de Rodas" },
 ];
 
 export function Gallery() {
@@ -128,45 +128,73 @@ export function Gallery() {
 
         {/* Desktop Parallax Grid */}
         <div className="hidden md:grid grid-cols-3 gap-6 h-[800px] pointer-events-none">
-          {/* Column 1 - Moves up fastest */}
-          <div className="col-1 flex flex-col gap-6">
-            <div className="relative aspect-[3/4] w-full overflow-hidden bg-zinid-dark rounded-xl">
-              <Image src={images[0]} alt="Detalhe 1" fill className="object-cover scale-125 gallery-img-inner" />
+          {/* Column 1 */}
+          <div className="col-1 flex flex-col gap-6 pointer-events-auto">
+            <div className="relative aspect-[3/4] w-full overflow-hidden bg-zinid-dark rounded-xl group cursor-crosshair">
+              <Image src={galleryItems[0].src} alt={galleryItems[0].title} fill className="object-cover scale-125 gallery-img-inner transition-transform duration-700 group-hover:scale-[1.15]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                 <span className="text-zinid-blue text-xs font-bold uppercase tracking-widest mb-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">Serviço</span>
+                 <h4 className="text-white text-2xl font-bold transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-150">{galleryItems[0].title}</h4>
+              </div>
             </div>
-            <div className="relative aspect-square w-full overflow-hidden bg-zinid-dark rounded-xl">
-              <Image src={images[1]} alt="Detalhe 2" fill className="object-cover scale-125 gallery-img-inner" />
-            </div>
-          </div>
-
-          {/* Column 2 - Moves down/slower to create contrast */}
-          <div className="col-2 flex flex-col gap-6">
-            <div className="relative aspect-square w-full overflow-hidden bg-zinid-dark rounded-xl">
-              <Image src={images[2]} alt="Detalhe 3" fill className="object-cover scale-125 gallery-img-inner" />
-            </div>
-            <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinid-dark rounded-xl">
-              <Image src={images[3]} alt="Detalhe 4" fill className="object-cover scale-125 gallery-img-inner" />
+            <div className="relative aspect-square w-full overflow-hidden bg-zinid-dark rounded-xl group cursor-crosshair">
+              <Image src={galleryItems[1].src} alt={galleryItems[1].title} fill className="object-cover scale-125 gallery-img-inner transition-transform duration-700 group-hover:scale-[1.15]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                 <span className="text-zinid-blue text-xs font-bold uppercase tracking-widest mb-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">Serviço</span>
+                 <h4 className="text-white text-2xl font-bold transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-150">{galleryItems[1].title}</h4>
+              </div>
             </div>
           </div>
 
-          {/* Column 3 - Moves up medium */}
-          <div className="col-3 flex flex-col gap-6">
-            <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinid-dark rounded-xl">
-              <Image src={images[4]} alt="Detalhe 5" fill className="object-cover scale-125 gallery-img-inner" />
+          {/* Column 2 */}
+          <div className="col-2 flex flex-col gap-6 pointer-events-auto">
+            <div className="relative aspect-square w-full overflow-hidden bg-zinid-dark rounded-xl group cursor-crosshair">
+              <Image src={galleryItems[2].src} alt={galleryItems[2].title} fill className="object-cover scale-125 gallery-img-inner transition-transform duration-700 group-hover:scale-[1.15]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                 <span className="text-zinid-blue text-xs font-bold uppercase tracking-widest mb-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">Serviço</span>
+                 <h4 className="text-white text-2xl font-bold transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-150">{galleryItems[2].title}</h4>
+              </div>
             </div>
-            <div className="relative aspect-square w-full overflow-hidden bg-zinid-dark rounded-xl">
-              <Image src={images[5]} alt="Detalhe 6" fill className="object-cover scale-125 gallery-img-inner" />
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinid-dark rounded-xl group cursor-crosshair">
+              <Image src={galleryItems[3].src} alt={galleryItems[3].title} fill className="object-cover scale-125 gallery-img-inner transition-transform duration-700 group-hover:scale-[1.15]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                 <span className="text-zinid-blue text-xs font-bold uppercase tracking-widest mb-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">Serviço</span>
+                 <h4 className="text-white text-2xl font-bold transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-150">{galleryItems[3].title}</h4>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 3 */}
+          <div className="col-3 flex flex-col gap-6 pointer-events-auto">
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinid-dark rounded-xl group cursor-crosshair">
+              <Image src={galleryItems[4].src} alt={galleryItems[4].title} fill className="object-cover scale-125 gallery-img-inner transition-transform duration-700 group-hover:scale-[1.15]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                 <span className="text-zinid-blue text-xs font-bold uppercase tracking-widest mb-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">Serviço</span>
+                 <h4 className="text-white text-2xl font-bold transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-150">{galleryItems[4].title}</h4>
+              </div>
+            </div>
+            <div className="relative aspect-square w-full overflow-hidden bg-zinid-dark rounded-xl group cursor-crosshair">
+              <Image src={galleryItems[5].src} alt={galleryItems[5].title} fill className="object-cover scale-125 gallery-img-inner transition-transform duration-700 group-hover:scale-[1.15]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                 <span className="text-zinid-blue text-xs font-bold uppercase tracking-widest mb-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100">Serviço</span>
+                 <h4 className="text-white text-2xl font-bold transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-150">{galleryItems[5].title}</h4>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Mobile Fallback - Standard staggered reveal */}
         <div className="md:hidden flex flex-col gap-4">
-          {images.map((src, index) => (
+          {galleryItems.map((item, index) => (
              <div
                key={index}
-               className="mobile-gallery-img relative aspect-square w-full overflow-hidden bg-zinid-dark rounded-xl opacity-0"
+               className="mobile-gallery-img relative aspect-square w-full overflow-hidden bg-zinid-dark rounded-xl opacity-0 group"
              >
-               <Image src={src} alt={`Galeria Mobile ${index + 1}`} fill className="object-cover" />
+               <Image src={item.src} alt={item.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-6 opacity-100">
+                  <span className="text-zinid-blue text-[10px] font-bold uppercase tracking-widest mb-1">Serviço</span>
+                  <h4 className="text-white text-lg font-bold">{item.title}</h4>
+               </div>
              </div>
           ))}
         </div>

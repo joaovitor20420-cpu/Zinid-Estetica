@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { TrustBar } from "@/components/TrustBar";
 import { Services } from "@/components/Services";
+import { Packages } from "@/components/Packages";
 import { WhyUs } from "@/components/WhyUs";
 import { Process } from "@/components/Process";
 import { Gallery } from "@/components/Gallery";
@@ -19,6 +20,7 @@ export default function Home() {
         <Hero />
         <TrustBar />
         <Services />
+        <Packages />
         <WhyUs />
         <Process />
         <Gallery />

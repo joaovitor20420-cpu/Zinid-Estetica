@@ -39,7 +39,7 @@ export function Location() {
           className="bg-zinc-950/50 backdrop-blur-xl border border-white/10 rounded-2xl w-full overflow-hidden flex flex-col lg:flex-row shadow-2xl shadow-zinid-blue/5"
         >
           {/* Information Side */}
-          <div className="p-10 lg:p-20 flex-1 flex flex-col justify-center relative">
+          <div className="p-10 lg:p-20 flex-1 flex flex-col justify-center relative z-20">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-zinid-blue via-zinid-navy to-transparent opacity-50" />
             
             <motion.h2 
@@ -88,44 +88,21 @@ export function Location() {
             </motion.div>
           </div>
 
-          {/* Abstract Map Side */}
-          <div className="lg:w-5/12 bg-[#050505] relative border-t lg:border-t-0 lg:border-l border-white/5 flex items-center justify-center min-h-[400px] overflow-hidden group">
-            {/* Architectural Grid pattern */}
-            <div 
-              className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-1000" 
-              style={{ 
-                backgroundImage: "linear-gradient(rgba(0,71,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,71,255,1) 1px, transparent 1px)", 
-                backgroundSize: "40px 40px" 
-              }} 
+          {/* Map Side */}
+          <div className="lg:w-5/12 relative border-t lg:border-t-0 lg:border-l border-white/5 min-h-[400px] bg-[#050505] group overflow-hidden">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3749.5259929281787!2d-44.179375!3d-19.986422999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa6c1004149959f%3A0x6bbaaa3b0be306!2sAv.%20Fausto%20Ribeiro%20da%20Silva%2C%201257%20-%20Bandeirinhas%2C%20Betim%20-%20MG%2C%2032654-805!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0, filter: 'grayscale(1) invert(0.92) contrast(1.1) hue-rotate(180deg)' }} 
+              allowFullScreen={false} 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              className="absolute inset-0 w-full h-full opacity-60 group-hover:opacity-90 transition-opacity duration-700"
             />
-            
-            {/* Dynamic radar rings */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <motion.div 
-                animate={{ scale: [1, 2, 3], opacity: [0.5, 0, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                className="absolute w-32 h-32 border border-zinid-blue/40 rounded-full"
-              />
-              <motion.div 
-                animate={{ scale: [1, 2, 3], opacity: [0.5, 0, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear", delay: 1 }}
-                className="absolute w-32 h-32 border border-zinid-blue/20 rounded-full"
-              />
-            </div>
-
-            <div className="relative z-10 text-center px-8 flex flex-col items-center">
-              <div className="relative w-24 h-24 mb-6">
-                <div className="absolute inset-0 bg-zinid-blue/10 backdrop-blur-md border border-zinid-blue/30 rounded-full flex items-center justify-center z-10 shadow-[0_0_30px_rgba(0,71,255,0.15)]">
-                  <MapPin className="w-8 h-8 text-zinid-blue" />
-                </div>
-                {/* Ping animation behind pin */}
-                <div className="absolute inset-0 bg-zinid-blue/30 rounded-full animate-ping opacity-20" />
-              </div>
-              <p className="text-zinc-400 text-sm tracking-[0.3em] font-medium uppercase">Betim • MG</p>
-            </div>
-            
-            {/* Vignette */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#050505_70%)] pointer-events-none" />
+            {/* Overlay Gradient to blend with the container */}
+            <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-zinc-950/80 to-transparent hidden lg:block" />
+            <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-zinc-950/80 to-transparent lg:hidden" />
           </div>
         </motion.div>
       </div>
