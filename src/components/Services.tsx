@@ -1,9 +1,16 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 const services = [
   {
@@ -32,16 +39,15 @@ const services = [
   },
 ];
 
-function ServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
+// ── Desktop Card (preserva comportamento original) ──────────────────────
+function DesktopServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
   
-  // Parallax suave na imagem baseado no scroll da página
   const { scrollYProgress } = useScroll({
     target: cardRef,
     offset: ["start end", "end start"]
   });
   
-  // Aumentei o range do parallax para ficar bem mais visível
   const y = useTransform(scrollYProgress, [0, 1], ["-25%", "25%"]);
 
   return (
@@ -56,41 +62,39 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         ease: [0.16, 1, 0.3, 1] 
       }}
       whileHover={{ y: -10 }}
-      className={`group relative min-h-[300px] md:min-h-[450px] bg-zinc-900/40 backdrop-blur-md overflow-hidden rounded-2xl cursor-default ${service.colSpan} border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:border-white/5 transition-all duration-500 md:hover:border-zinid-blue/50 md:hover:bg-zinid-blue/5 md:hover:shadow-[0_0_50px_rgba(0,71,255,0.25)]`}
+      className={`group relative min-h-[450px] bg-zinc-900/40 backdrop-blur-md overflow-hidden rounded-2xl cursor-default ${service.colSpan} border border-white/5 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-all duration-500 hover:border-zinid-blue/50 hover:bg-zinid-blue/5 hover:shadow-[0_0_50px_rgba(0,71,255,0.25)]`}
       style={{ perspective: "1000px" }}
     >
-      {/* Imagem com Parallax mais forte e Zoom no hover */}
+      {/* Imagem com Parallax */}
       <motion.div style={{ y }} className="absolute inset-0 w-full h-[150%] -top-[25%]">
         <Image
           src={service.image}
           alt={service.title}
           fill
-          className="object-cover transition-all duration-700 ease-out grayscale-0 opacity-60 scale-105 md:grayscale-[0.8] md:opacity-30 md:scale-100 md:group-hover:grayscale-0 md:group-hover:opacity-70 md:group-hover:scale-110"
+          className="object-cover transition-all duration-700 ease-out grayscale-[0.8] opacity-30 scale-100 group-hover:grayscale-0 group-hover:opacity-70 group-hover:scale-110"
         />
       </motion.div>
 
       {/* Gradiente escuro para contraste do texto */}
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
       
-      {/* Luz radial azul mais forte e brilhante */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(0,71,255,0.6),transparent_70%)] opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 mix-blend-screen" />
+      {/* Luz radial azul no hover */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(0,71,255,0.6),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-screen" />
       {/* Brilho adicional no topo no hover */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-zinid-blue to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_20px_rgba(0,71,255,0.8)]" />
       
-      <div className="absolute inset-x-0 bottom-0 p-8 md:p-10 flex flex-col justify-end h-full z-10 pointer-events-none">
-        <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:translate-y-12 group-hover:translate-y-0">
-          <h3 className="text-2xl md:text-3xl font-bold mb-2 text-white tracking-tight flex items-center justify-between">
+      <div className="absolute inset-x-0 bottom-0 p-10 flex flex-col justify-end h-full z-10 pointer-events-none">
+        <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] translate-y-12 group-hover:translate-y-0">
+          <h3 className="text-3xl font-bold mb-2 text-white tracking-tight flex items-center justify-between">
             {service.title}
-            {/* Ícone de Seta em Círculo Neon MUITO MAIS BRILHANTE */}
-            <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-full bg-zinid-blue/20 flex items-center justify-center border border-zinid-blue shadow-[0_0_20px_rgba(0,71,255,0.6)] transition-all duration-500 ease-out opacity-100 translate-x-0 md:opacity-0 md:-translate-x-4 md:group-hover:opacity-100 md:group-hover:translate-x-0 group-hover:bg-zinid-blue">
-              <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-white md:text-zinid-blue md:group-hover:text-white transition-colors duration-300" />
+            <div className="w-12 h-12 flex-shrink-0 rounded-full bg-zinid-blue/20 flex items-center justify-center border border-zinid-blue shadow-[0_0_20px_rgba(0,71,255,0.6)] transition-all duration-500 ease-out opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 group-hover:bg-zinid-blue">
+              <ArrowRight className="w-5 h-5 text-zinid-blue group-hover:text-white transition-colors duration-300" />
             </div>
           </h3>
           
-          {/* Expanding Text for Desktop, Static for Mobile */}
-          <div className="md:grid md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
-            <div className="md:overflow-hidden">
-              <p className="text-zinc-400 text-base md:text-lg leading-relaxed max-w-sm mt-4 md:opacity-0 transition-opacity duration-500 delay-100 md:group-hover:opacity-100">
+          <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+            <div className="overflow-hidden">
+              <p className="text-zinc-400 text-lg leading-relaxed max-w-sm mt-4 opacity-0 transition-opacity duration-500 delay-100 group-hover:opacity-100">
                 {service.description}
               </p>
             </div>
@@ -101,10 +105,95 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
   );
 }
 
+// ── Mobile Horizontal Scroll Section ────────────────────────────────────
+function MobileServicesCarousel() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  useGSAP(() => {
+    if (!isMobile) return;
+    
+    const track = trackRef.current;
+    const section = sectionRef.current;
+    if (!track || !section) return;
+
+    // Calcula o quanto precisa mover horizontalmente
+    const totalScrollWidth = track.scrollWidth - window.innerWidth + 48; // 48 = px-6 padding
+
+    gsap.to(track, {
+      x: -totalScrollWidth,
+      ease: "none",
+      scrollTrigger: {
+        trigger: section,
+        start: "top top",
+        end: () => `+=${totalScrollWidth}`,
+        pin: true,
+        scrub: 0.8,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 200);
+  }, { scope: sectionRef, dependencies: [isMobile] });
+
+  return (
+    <div ref={sectionRef} className="md:hidden relative w-full overflow-hidden min-h-[85dvh] flex flex-col justify-center">
+      {/* Track que se move horizontalmente */}
+      <div ref={trackRef} className="flex gap-4 px-6 will-change-transform">
+        {services.map((service, index) => (
+          <div
+            key={service.title}
+            className="relative w-[80vw] flex-shrink-0 aspect-[3/4] rounded-2xl overflow-hidden"
+          >
+            {/* Imagem natural — sem filtros, sem overlay azul */}
+            <Image
+              src={service.image}
+              alt={service.title}
+              fill
+              className="object-cover"
+            />
+            
+            {/* Gradiente suave apenas para legibilidade do texto na base */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            
+            {/* Conteúdo */}
+            <div className="absolute inset-x-0 bottom-0 p-6 z-10">
+              <span className="text-white/50 text-[10px] font-bold uppercase tracking-[0.3em] mb-2 block">
+                0{index + 1}
+              </span>
+              <h3 className="text-2xl font-bold text-white tracking-tight mb-2">
+                {service.title}
+              </h3>
+              <p className="text-zinc-300 text-sm leading-relaxed">
+                {service.description}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Indicador de scroll sutil */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+        {services.map((_, i) => (
+          <div key={i} className="w-6 h-[2px] rounded-full bg-white/20" />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function Services() {
   return (
     <section id="servicos" data-bgcolor="#0C0C12" className="py-16 md:py-32 bg-transparent relative overflow-hidden">
-      {/* Luzes ambientes abstratas de fundo com muito mais brilho */}
+      {/* Luzes ambientes abstratas de fundo */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[600px] bg-zinid-blue/20 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 mix-blend-screen" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-zinid-blue/15 rounded-full blur-[150px] pointer-events-none translate-y-1/2 translate-x-1/3 mix-blend-screen" />
       {/* Linha de brilho superior */}
@@ -150,10 +239,16 @@ export function Services() {
             Cada serviço é realizado com atenção aos detalhes para devolver ao seu veículo uma aparência impecável. Sem atalhos, apenas resultado.
           </motion.p>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+      {/* Mobile: Horizontal scroll-triggered carousel com imagens naturais */}
+      <MobileServicesCarousel />
+
+      {/* Desktop: Grid Bento original */}
+      <div className="container mx-auto px-6 max-w-7xl relative z-10 hidden md:block">
+        <div className="grid grid-cols-3 gap-6 lg:gap-8">
           {services.map((service, index) => (
-            <ServiceCard key={service.title} service={service} index={index} />
+            <DesktopServiceCard key={service.title} service={service} index={index} />
           ))}
         </div>
       </div>
