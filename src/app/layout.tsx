@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
 import { CustomCursor } from '@/components/CustomCursor';
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
@@ -64,6 +65,7 @@ export default function RootLayout({
       <body className="antialiased bg-zinid-black text-white min-h-screen flex flex-col font-sans">
         <CustomCursor />
         {children}
+        <Analytics />
       </body>
     </html>
   );
