@@ -75,13 +75,18 @@ export function CustomCursor() {
     <div className="hidden lg:block pointer-events-none fixed top-0 left-0 z-[100]">
       <div
         ref={cursorRef}
-        className={`flex items-center justify-center rounded-full transition-all duration-300 ease-out ${
+        className={`flex items-center justify-center rounded-full ${
           isHovering && hoverText
             ? "w-20 h-20 bg-white text-black font-bold text-xs tracking-widest shadow-2xl mix-blend-normal"
             : isHovering
             ? "w-16 h-16 bg-white/10 backdrop-blur-sm border border-white/30 mix-blend-difference"
             : "w-4 h-4 bg-white mix-blend-difference"
         }`}
+        style={{
+          transitionProperty: "width, height, background-color, border-color, box-shadow, backdrop-filter",
+          transitionDuration: "300ms",
+          transitionTimingFunction: "ease-out"
+        }}
       >
         {hoverText && (
           <span className="opacity-100 animate-in fade-in zoom-in duration-300">
