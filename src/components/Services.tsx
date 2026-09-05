@@ -71,12 +71,12 @@ function DesktopServiceCard({ service, index }: { service: typeof services[0]; i
           src={service.image}
           alt={service.title}
           fill
-          className="object-cover transition-all duration-700 ease-out grayscale-[0.8] opacity-30 scale-100 group-hover:grayscale-0 group-hover:opacity-70 group-hover:scale-110"
+          className="object-cover transition-all duration-700 ease-out opacity-70 scale-100 group-hover:opacity-90 group-hover:scale-110"
         />
       </motion.div>
 
-      {/* Gradiente escuro para contraste do texto */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
+      {/* Gradiente suave na base para legibilidade do texto */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent transition-opacity duration-500" />
       
       {/* Luz radial azul no hover */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(0,71,255,0.6),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-screen" />
