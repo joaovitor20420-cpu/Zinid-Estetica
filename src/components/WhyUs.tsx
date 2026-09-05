@@ -147,7 +147,7 @@ export function WhyUs() {
   }, { scope: container });
 
   return (
-    <section ref={container} id="sobre" data-bgcolor="#161618" className="py-32 bg-transparent border-y border-white/5 relative overflow-hidden">
+    <section ref={container} id="sobre" data-bgcolor="#161618" className="py-16 md:py-32 bg-transparent border-y border-white/5 relative overflow-hidden">
       
       {/* Background Parallax Sphere */}
       <div ref={bgSphere} className="absolute -top-32 left-1/4 w-[600px] h-[600px] bg-zinid-blue/15 rounded-full blur-[150px] pointer-events-none" />
@@ -161,7 +161,7 @@ export function WhyUs() {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 max-w-7xl relative z-10 flex flex-col lg:flex-row gap-16 lg:gap-24">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10 flex flex-col lg:flex-row gap-10 lg:gap-24">
         
         {/* Coluna Esquerda (Sticky) */}
         <div className="lg:w-5/12 flex flex-col">
@@ -173,7 +173,7 @@ export function WhyUs() {
               </span>
             </div>
 
-            <h2 ref={heading} className="text-5xl md:text-6xl font-bold tracking-tighter leading-[1.05] mb-8 text-white opacity-0">
+            <h2 ref={heading} className="text-4xl md:text-6xl font-bold tracking-tighter leading-[1.05] mb-6 md:mb-8 text-white opacity-0">
               MAIS DO QUE <br /> LIMPEZA.
               <br />
               <span className="text-zinid-blue drop-shadow-[0_0_15px_rgba(0,71,255,0.2)]">
@@ -203,12 +203,12 @@ export function WhyUs() {
         </div>
 
         {/* Coluna Direita (Scrollável) */}
-        <div className="lg:w-7/12 flex flex-col pt-10 lg:pt-32 pb-20">
+        <div className="lg:w-7/12 flex flex-col pt-4 lg:pt-32 pb-10 lg:pb-20">
           <div className="flex flex-col">
             {pillars.map((pillar, index) => (
               <div 
                 key={pillar.num} 
-                className={`pillar-row flex flex-col py-12 md:py-16 border-white/10 group cursor-default relative overflow-hidden opacity-0 ${index === 0 ? 'border-t-0' : 'border-t'}`}
+                className={`pillar-row flex flex-col py-8 md:py-16 border-white/10 group cursor-default relative overflow-hidden opacity-0 ${index === 0 ? 'border-t-0' : 'border-t'}`}
               >
                 {/* Highlight Hover Background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-zinid-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out pointer-events-none rounded-xl" />

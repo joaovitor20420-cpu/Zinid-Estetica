@@ -41,7 +41,7 @@ export function FinalCTA() {
     <section 
       ref={containerRef} 
       data-bgcolor="#0047FF"
-      className="relative py-40 flex items-center justify-center overflow-hidden bg-transparent"
+      className="relative py-20 md:py-40 flex items-center justify-center overflow-hidden bg-transparent"
     >
       {/* Background Image with Parallax */}
       <motion.div 
@@ -78,7 +78,7 @@ export function FinalCTA() {
 
           <motion.h2
             variants={itemVariants}
-            className="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1] mb-8 text-white drop-shadow-2xl"
+            className="text-4xl md:text-7xl font-bold tracking-tighter leading-[1.1] mb-6 md:mb-8 text-white drop-shadow-2xl"
           >
             SEU CARRO MERECE <br className="hidden sm:block" />
             <span className="bg-gradient-to-r from-white via-zinid-blue to-zinc-400 bg-clip-text text-transparent">
@@ -88,7 +88,7 @@ export function FinalCTA() {
 
           <motion.p
             variants={itemVariants}
-            className="text-lg md:text-2xl text-zinc-300 mb-12 max-w-2xl mx-auto font-light leading-relaxed"
+            className="text-base md:text-2xl text-zinc-300 mb-8 md:mb-12 max-w-2xl mx-auto font-light leading-relaxed"
           >
             A excelência automotiva que você procura, com o requinte e a atenção aos mínimos detalhes que a Zinid oferece.
           </motion.p>

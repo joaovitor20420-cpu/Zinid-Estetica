@@ -19,7 +19,7 @@ export function TrustBar() {
   const marqueeItems = [...items, ...items, ...items, ...items];
 
   return (
-    <section data-bgcolor="#000C1A" className="bg-transparent border-b border-white/5 relative overflow-hidden py-8">
+    <section data-bgcolor="#000C1A" className="bg-transparent border-b border-white/5 relative overflow-hidden py-5 md:py-8">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-zinid-blue/30 to-transparent" />
       
       {/* Máscaras de gradiente nas bordas (fade edges) */}

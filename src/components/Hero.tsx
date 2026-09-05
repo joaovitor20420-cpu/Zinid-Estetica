@@ -140,7 +140,7 @@ export function Hero() {
 
     // Detecta se é mobile para ajustar o tempo/distância de rolagem
     const isMobile = window.innerWidth < 768;
-    const scrollDistance = isMobile ? "+=300%" : "+=500%";
+    const scrollDistance = isMobile ? "+=150%" : "+=500%";
 
     // Timeline principal sincronizada com o Scroll (Scrub)
     const stTl = gsap.timeline({

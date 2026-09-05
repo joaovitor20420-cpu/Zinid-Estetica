@@ -45,13 +45,13 @@ const packages = [
 
 export function Packages() {
   return (
-    <section id="pacotes" data-bgcolor="#002E99" className="py-32 bg-transparent relative border-y border-white/5 overflow-hidden">
+    <section id="pacotes" data-bgcolor="#002E99" className="py-16 md:py-32 bg-transparent relative border-y border-white/5 overflow-hidden">
       {/* Ambient Light */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-zinid-blue/5 rounded-[100%] blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         
-        <div className="text-center mb-20">
+        <div className="text-center mb-12 md:mb-20">
            <motion.h2
             initial="hidden"
             whileInView="visible"
@@ -59,7 +59,7 @@ export function Packages() {
             variants={{
               visible: { transition: { staggerChildren: 0.15 } }
             }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-white flex justify-center items-center gap-3 md:gap-4 flex-wrap"
+            className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-4 md:mb-6 text-white flex justify-center items-center gap-3 md:gap-4 flex-wrap"
           >
             <span className="overflow-hidden pb-1 md:pb-2">
               <motion.span 
@@ -91,7 +91,8 @@ export function Packages() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
+        {/* Mobile: horizontal snap-scroll carousel | Desktop: 3-column grid */}
+        <div className="flex lg:grid lg:grid-cols-3 gap-6 lg:gap-8 items-stretch max-w-6xl mx-auto overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4 lg:pb-0 -mx-6 px-6 lg:mx-auto lg:px-0">
           {packages.map((pkg, i) => (
             <motion.div
               key={i}
@@ -99,7 +100,7 @@ export function Packages() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.15 }}
-              className={`relative rounded-3xl p-8 md:p-10 transition-transform duration-500 hover:-translate-y-2 backdrop-blur-2xl ${
+              className={`relative rounded-3xl p-8 md:p-10 transition-transform duration-500 hover:-translate-y-2 backdrop-blur-2xl snap-center shrink-0 w-[85vw] sm:w-[75vw] lg:w-auto ${
                 pkg.highlight 
                   ? "bg-black/40 border border-white/30 shadow-[0_20_40px_rgba(0,0,0,0.5)] lg:-translate-y-4 hover:shadow-[0_30_60px_rgba(0,0,0,0.6)]" 
                   : "bg-black/20 border border-white/10 hover:bg-black/30"
@@ -118,7 +119,7 @@ export function Packages() {
                 {pkg.price}
               </div>
               
-              <ul className="space-y-4 mb-10 min-h-[220px]">
+              <ul className="space-y-4 mb-8 md:mb-10 min-h-0 lg:min-h-[220px]">
                 {pkg.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-zinid-blue flex-shrink-0 mt-0.5" />

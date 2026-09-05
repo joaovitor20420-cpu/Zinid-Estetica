@@ -56,7 +56,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         ease: [0.16, 1, 0.3, 1] 
       }}
       whileHover={{ y: -10 }}
-      className={`group relative min-h-[400px] md:min-h-[450px] bg-zinc-900/40 backdrop-blur-md overflow-hidden rounded-2xl cursor-default ${service.colSpan} border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:border-white/5 transition-all duration-500 md:hover:border-zinid-blue/50 md:hover:bg-zinid-blue/5 md:hover:shadow-[0_0_50px_rgba(0,71,255,0.25)]`}
+      className={`group relative min-h-[300px] md:min-h-[450px] bg-zinc-900/40 backdrop-blur-md overflow-hidden rounded-2xl cursor-default ${service.colSpan} border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:border-white/5 transition-all duration-500 md:hover:border-zinid-blue/50 md:hover:bg-zinid-blue/5 md:hover:shadow-[0_0_50px_rgba(0,71,255,0.25)]`}
       style={{ perspective: "1000px" }}
     >
       {/* Imagem com Parallax mais forte e Zoom no hover */}
@@ -103,7 +103,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
 
 export function Services() {
   return (
-    <section id="servicos" data-bgcolor="#0C0C12" className="py-32 bg-transparent relative overflow-hidden">
+    <section id="servicos" data-bgcolor="#0C0C12" className="py-16 md:py-32 bg-transparent relative overflow-hidden">
       {/* Luzes ambientes abstratas de fundo com muito mais brilho */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[600px] bg-zinid-blue/20 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 mix-blend-screen" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-zinid-blue/15 rounded-full blur-[150px] pointer-events-none translate-y-1/2 translate-x-1/3 mix-blend-screen" />
@@ -111,7 +111,7 @@ export function Services() {
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinid-blue/50 to-transparent shadow-[0_0_20px_rgba(0,71,255,0.5)]" />
       
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        <div className="mb-20">
+        <div className="mb-12 md:mb-20">
           <motion.h2
             initial="hidden"
             whileInView="visible"
@@ -119,7 +119,7 @@ export function Services() {
             variants={{
               visible: { transition: { staggerChildren: 0.15 } }
             }}
-            className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-8 text-white flex flex-col items-start"
+            className="text-3xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-6 md:mb-8 text-white flex flex-col items-start"
           >
             <span className="overflow-hidden pb-1 md:pb-2">
               <motion.span 
@@ -151,7 +151,7 @@ export function Services() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {services.map((service, index) => (
             <ServiceCard key={service.title} service={service} index={index} />
           ))}

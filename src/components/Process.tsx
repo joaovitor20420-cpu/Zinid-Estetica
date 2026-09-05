@@ -148,15 +148,15 @@ export function Process() {
   }, { scope: container });
 
   return (
-    <section ref={container} id="processos" data-bgcolor="#000000" className="py-20 h-screen bg-transparent relative overflow-hidden border-t border-white/5 flex flex-col justify-center">
+    <section ref={container} id="processos" data-bgcolor="#000000" className="py-10 md:py-20 h-[100dvh] bg-transparent relative overflow-hidden border-t border-white/5 flex flex-col justify-center">
       <div className="absolute top-1/2 right-0 w-[800px] h-[800px] bg-zinid-blue/10 rounded-full blur-[150px] pointer-events-none translate-x-1/2 -translate-y-1/2" />
       
-      <div className="container mx-auto px-6 max-w-7xl relative z-10 flex flex-col lg:flex-row gap-12 lg:gap-24 items-center h-full">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10 flex flex-col lg:flex-row gap-8 lg:gap-24 items-center h-full">
         
         {/* Lado Esquerdo - Textos e Navegação */}
-        <div className="lg:w-5/12 w-full mt-20 lg:mt-0 flex flex-col justify-center h-full">
-          <div className="mb-12">
-            <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter text-white mb-6 leading-[1.1]">
+        <div className="lg:w-5/12 w-full mt-16 lg:mt-0 flex flex-col justify-center h-full">
+          <div className="mb-6 lg:mb-12">
+            <h2 className="text-3xl md:text-5xl lg:text-7xl font-bold tracking-tighter text-white mb-4 md:mb-6 leading-[1.1]">
               COMO <br className="hidden lg:block" />
               <span className="text-zinid-blue drop-shadow-[0_0_15px_rgba(0,71,255,0.2)]">FUNCIONA.</span>
             </h2>
@@ -180,10 +180,10 @@ export function Process() {
 
         {/* Lado Direito - Deck de Cartões */}
         <div 
-          className="lg:w-7/12 relative w-full h-[450px] md:h-[600px] flex items-end justify-center lg:justify-end pb-10"
+          className="lg:w-7/12 relative w-full h-[340px] md:h-[600px] flex items-end justify-center lg:justify-end pb-6 md:pb-10"
           style={{ perspective: "1500px" }}
         >
-          <div ref={deck} className="relative w-full max-w-md lg:max-w-lg h-[350px] md:h-[400px]">
+          <div ref={deck} className="relative w-full max-w-sm md:max-w-md lg:max-w-lg h-[280px] md:h-[400px]">
             {steps.map((step) => {
               return (
                 <div 

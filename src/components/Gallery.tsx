@@ -115,9 +115,9 @@ export function Gallery() {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} id="galeria" data-bgcolor="#00102A" className="py-40 bg-transparent relative overflow-hidden border-t border-white/5">
+    <section ref={containerRef} id="galeria" data-bgcolor="#00102A" className="py-20 md:py-40 bg-transparent relative overflow-hidden border-t border-white/5">
       <div className="container mx-auto px-6 max-w-7xl">
-        <div className="text-center mb-32 max-w-3xl mx-auto gallery-header opacity-0">
+        <div className="text-center mb-16 md:mb-32 max-w-3xl mx-auto gallery-header opacity-0">
           <motion.h2
             initial="hidden"
             whileInView="visible"
@@ -125,7 +125,7 @@ export function Gallery() {
             variants={{
               visible: { transition: { staggerChildren: 0.15 } }
             }}
-            className="text-4xl md:text-6xl font-bold tracking-tighter mb-6 text-white flex flex-col items-center"
+            className="text-3xl md:text-6xl font-bold tracking-tighter mb-4 md:mb-6 text-white flex flex-col items-center"
           >
             <span className="overflow-hidden pb-1 md:pb-2">
               <motion.span 
@@ -208,15 +208,15 @@ export function Gallery() {
           </div>
         </div>
 
-        {/* Mobile Fallback - Standard staggered reveal */}
-        <div className="md:hidden flex flex-col gap-4">
+        {/* Mobile: horizontal snap-scroll carousel with all items visible */}
+        <div className="md:hidden flex gap-4 overflow-x-auto snap-x snap-mandatory hide-scrollbar -mx-6 px-6 pb-4">
           {galleryItems.map((item, index) => (
              <div
                key={index}
-               className="mobile-gallery-img relative aspect-square w-full overflow-hidden bg-zinid-dark rounded-xl opacity-0 group"
+               className="mobile-gallery-img relative aspect-[4/5] w-[75vw] flex-shrink-0 overflow-hidden bg-zinid-dark rounded-xl opacity-0 snap-center group"
              >
                <Image src={item.src} alt={item.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-6 opacity-100">
+               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-5 opacity-100">
                   <span className="text-zinid-blue text-[10px] font-bold uppercase tracking-widest mb-1">Serviço</span>
                   <h4 className="text-white text-lg font-bold">{item.title}</h4>
                </div>

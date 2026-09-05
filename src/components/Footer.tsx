@@ -27,7 +27,7 @@ const itemVariants: Variants = {
 
 export function Footer() {
   return (
-    <footer className="bg-zinid-black pt-24 pb-12 border-t border-zinid-blue/10 relative overflow-hidden">
+    <footer className="bg-zinid-black pt-16 md:pt-24 pb-8 md:pb-12 border-t border-zinid-blue/10 relative overflow-hidden">
       {/* Subtle top glow with brand color */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[1px] bg-gradient-to-r from-transparent via-zinid-blue/30 to-transparent" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-zinid-blue/5 rounded-full blur-[100px] pointer-events-none" />
@@ -38,7 +38,7 @@ export function Footer() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-20"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 mb-12 md:mb-20"
         >
           
           <motion.div variants={itemVariants} className="lg:col-span-5 pr-0 lg:pr-12">

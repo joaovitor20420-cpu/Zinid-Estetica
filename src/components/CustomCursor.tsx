@@ -12,6 +12,10 @@ export function CustomCursor() {
     const cursor = cursorRef.current;
     if (!cursor) return;
 
+    // Skip on touch devices — don't hide browser cursor on mobile/tablet
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 1024;
+    if (isTouchDevice) return;
+
     // Oculta o cursor padrão do navegador apenas quando o componente JS carregar com sucesso
     document.body.style.cursor = "none";
     const clickableElements = document.querySelectorAll("a, button, [role='button'], input, textarea, select");

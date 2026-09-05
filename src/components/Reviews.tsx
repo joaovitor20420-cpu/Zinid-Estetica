@@ -36,20 +36,20 @@ const reviews: Review[] = [
 
 export function Reviews() {
   return (
-    <section id="avaliacoes" data-bgcolor="#1A1A1A" className="py-32 bg-transparent relative overflow-hidden">
+    <section id="avaliacoes" data-bgcolor="#1A1A1A" className="py-16 md:py-32 bg-transparent relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-zinid-blue/5 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 md:mb-16 gap-4 md:gap-6">
           <div>
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-4xl md:text-5xl font-bold tracking-tighter mb-4 text-white"
+              className="text-3xl md:text-5xl font-bold tracking-tighter mb-3 md:mb-4 text-white"
             >
               O QUE DIZEM <br className="hidden md:block" />
               <span className="text-zinc-600">NOSSOS CLIENTES.</span>
@@ -80,8 +80,8 @@ export function Reviews() {
           </motion.div>
         </div>
 
-        {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Mobile: horizontal snap-scroll | Desktop: Bento Grid */}
+        <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory md:overflow-visible hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0 pb-4 md:pb-0">
           {reviews.map((review, i) => (
             <motion.div
               key={i}
@@ -89,7 +89,7 @@ export function Reviews() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className={`bg-white/5 backdrop-blur-md border border-white/10 p-8 md:p-10 rounded-2xl relative overflow-hidden group hover:bg-white/10 hover:border-white/20 transition-all duration-500 ${review.colSpan}`}
+              className={`bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-10 rounded-2xl relative overflow-hidden group hover:bg-white/10 hover:border-white/20 transition-all duration-500 snap-center shrink-0 w-[85vw] md:w-auto ${review.colSpan}`}
             >
               {/* Hover Glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-zinid-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
