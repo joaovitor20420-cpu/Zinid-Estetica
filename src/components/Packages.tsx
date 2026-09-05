@@ -6,7 +6,7 @@ import { Check } from "lucide-react";
 const packages = [
   {
     name: "Pacote Venda",
-    price: "Consulte",
+    price: "a partir de R$ 350",
     description: "Ideal para valorizar o veículo antes da venda.",
     features: [
       "Lavagem detalhada externa",
@@ -18,7 +18,7 @@ const packages = [
   },
   {
     name: "Proteção Máxima",
-    price: "Premium",
+    price: "a partir de R$ 1.500",
     description: "A proteção definitiva para quem exige o melhor.",
     features: [
       "Polimento técnico",
@@ -31,7 +31,7 @@ const packages = [
   },
   {
     name: "Carro Zero",
-    price: "Especial",
+    price: "a partir de R$ 900",
     description: "Proteja seu veículo novo desde o primeiro dia.",
     features: [
       "Lavagem técnica",

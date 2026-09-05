@@ -2,8 +2,16 @@
 
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
+import Image from "next/image";
 
-const reviews = [
+type Review = {
+  name: string;
+  text: string;
+  colSpan: string;
+  avatarUrl?: string;
+};
+
+const reviews: Review[] = [
   {
     name: "Carlos M.",
     text: "O nível de detalhamento é absurdo. Meu carro saiu da Zinid melhor do que quando tirei da concessionária. A vitrificação ficou um espelho.",
@@ -99,9 +107,15 @@ export function Reviews() {
               </p>
               
               <div className="flex items-center gap-4 relative z-10 mt-auto">
-                <div className="w-10 h-10 rounded-full bg-zinid-dark border border-white/10 flex items-center justify-center text-white font-bold">
-                  {review.name.charAt(0)}
-                </div>
+                {review.avatarUrl ? (
+                  <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10 flex-shrink-0 relative">
+                    <Image src={review.avatarUrl} alt={review.name} fill className="object-cover" />
+                  </div>
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-zinid-dark border border-white/10 flex items-center justify-center text-white font-bold flex-shrink-0">
+                    {review.name.charAt(0)}
+                  </div>
+                )}
                 <div>
                   <h4 className="text-white font-medium">{review.name}</h4>
                   <span className="text-zinc-500 text-sm">Cliente Zinid</span>

@@ -45,11 +45,11 @@ export function Header() {
   }, []);
 
   const navLinks = [
-    { label: "Início", href: "#" },
-    { label: "Serviços", href: "#servicos" },
-    { label: "Sobre", href: "#sobre" },
-    { label: "Galeria", href: "#galeria" },
-    { label: "Contato", href: "#contato" },
+    { label: "Início", href: "/" },
+    { label: "Serviços", href: "/#servicos" },
+    { label: "Sobre", href: "/#sobre" },
+    { label: "Galeria", href: "/#galeria" },
+    { label: "Contato", href: "/#contato" },
   ];
 
   return (
@@ -65,7 +65,16 @@ export function Header() {
             : "max-w-7xl bg-transparent px-0 py-2 border-transparent"
         }`}
       >
-        <Link href="#" className="relative z-10 flex items-center shrink-0">
+        <Link 
+          href="/" 
+          onClick={(e) => {
+            if (window.location.pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+          className="relative z-10 flex items-center shrink-0"
+        >
           <Image
             src="/1b0cad2c-4f8d-4a3f-ae8a-c003a9bf4400.png"
             alt="Zinid Estética Automotiva Logo"
@@ -82,6 +91,12 @@ export function Header() {
             <Link
               key={link.label}
               href={link.href}
+              onClick={(e) => {
+                if (link.href === "/" && window.location.pathname === "/") {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
               onMouseEnter={() => setHoveredIndex(index)}
               className={`relative px-5 py-2 text-sm font-medium transition-colors rounded-full ${
                 activeSection === link.href ? "text-white" : "text-zinc-300 hover:text-white"
@@ -144,7 +159,13 @@ export function Header() {
                   <Link
                     key={link.label}
                     href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={(e) => {
+                      if (link.href === "/" && window.location.pathname === "/") {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }
+                      setIsMobileMenuOpen(false);
+                    }}
                     className="text-lg font-medium text-zinc-400 hover:text-white px-4 py-3 rounded-xl hover:bg-white/5 transition-colors"
                   >
                     {link.label}

@@ -81,17 +81,29 @@ export function Footer() {
               <span className="w-2 h-2 rounded-full bg-zinid-blue shadow-[0_0_10px_rgba(0,71,255,0.5)]" /> Navegação
             </h4>
             <ul className="space-y-4">
-              {['Início', 'Serviços', 'Galeria', 'Contato'].map((item, i) => (
-                <li key={item}>
-                  <Link 
-                    href={i === 0 ? "#" : `#${item.toLowerCase()}`} 
-                    className="group flex items-center text-zinc-400 hover:text-white transition-colors"
-                  >
-                    <ArrowRight className="w-3 h-3 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300 mr-2 text-zinid-blue" />
-                    <span>{item}</span>
-                  </Link>
-                </li>
-              ))}
+              {['Início', 'Serviços', 'Galeria', 'Contato'].map((item, i) => {
+                let href = `/#${item.toLowerCase()}`;
+                if (item === 'Início') href = "/";
+                if (item === 'Serviços') href = "/#servicos";
+                
+                return (
+                  <li key={item}>
+                    <Link 
+                      href={href} 
+                      onClick={(e) => {
+                        if (href === "/" && window.location.pathname === "/") {
+                          e.preventDefault();
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                        }
+                      }}
+                      className="group flex items-center text-zinc-400 hover:text-white transition-colors"
+                    >
+                      <ArrowRight className="w-3 h-3 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300 mr-2 text-zinid-blue" />
+                      <span>{item}</span>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </motion.div>
 
@@ -130,8 +142,8 @@ export function Footer() {
             &copy; {new Date().getFullYear()} <span className="text-zinc-300">Zinid Estética Automotiva</span>. Todos os direitos reservados.
           </p>
           <div className="flex gap-6 text-sm text-zinc-600 font-light">
-            <a href="#" className="hover:text-zinid-blue transition-colors">Política de Privacidade</a>
-            <a href="#" className="hover:text-zinid-blue transition-colors">Termos de Uso</a>
+            <Link href="/politica-de-privacidade" className="hover:text-zinid-blue transition-colors">Política de Privacidade</Link>
+            <Link href="/termos-de-uso" className="hover:text-zinid-blue transition-colors">Termos de Uso</Link>
           </div>
         </motion.div>
       </div>
