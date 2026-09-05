@@ -25,7 +25,7 @@ const itemVariants: Variants = {
 
 export function Location() {
   return (
-    <section id="contato" className="py-32 bg-black relative overflow-hidden">
+    <section id="contato" data-bgcolor="#000000" className="py-32 bg-transparent relative overflow-hidden">
       {/* Background Glows */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-zinid-navy/30 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-zinid-dark/30 rounded-full blur-[150px] pointer-events-none" />
@@ -36,7 +36,7 @@ export function Location() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="bg-zinc-950/50 backdrop-blur-xl border border-white/10 rounded-2xl w-full overflow-hidden flex flex-col lg:flex-row shadow-2xl shadow-zinid-blue/5"
+          className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-2xl w-full overflow-hidden flex flex-col lg:flex-row shadow-2xl shadow-black/50"
         >
           {/* Information Side */}
           <div className="p-10 lg:p-20 flex-1 flex flex-col justify-center relative z-20">

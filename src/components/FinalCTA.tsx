@@ -40,7 +40,8 @@ export function FinalCTA() {
   return (
     <section 
       ref={containerRef} 
-      className="relative py-40 flex items-center justify-center overflow-hidden bg-black"
+      data-bgcolor="#0047FF"
+      className="relative py-40 flex items-center justify-center overflow-hidden bg-transparent"
     >
       {/* Background Image with Parallax */}
       <motion.div 

@@ -28,7 +28,7 @@ const reviews = [
 
 export function Reviews() {
   return (
-    <section id="avaliacoes" className="py-32 bg-zinid-black relative overflow-hidden">
+    <section id="avaliacoes" data-bgcolor="#1A1A1A" className="py-32 bg-transparent relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-zinid-blue/5 rounded-full blur-[150px] pointer-events-none" />
 
@@ -81,7 +81,7 @@ export function Reviews() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className={`bg-zinc-950/50 backdrop-blur-sm border border-white/5 p-8 md:p-10 rounded-2xl relative overflow-hidden group hover:border-zinid-blue/30 transition-colors duration-500 ${review.colSpan}`}
+              className={`bg-white/5 backdrop-blur-md border border-white/10 p-8 md:p-10 rounded-2xl relative overflow-hidden group hover:bg-white/10 hover:border-white/20 transition-all duration-500 ${review.colSpan}`}
             >
               {/* Hover Glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-zinid-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

@@ -5,18 +5,43 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { MagneticButton } from "./MagneticButton";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
+  const [activeSection, setActiveSection] = useState("");
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    // Spy scroll implementation
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(`#${entry.target.id}`);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    // Observe all sections with an id
+    setTimeout(() => {
+      const sections = document.querySelectorAll("section[id], div[id]");
+      sections.forEach((section) => observer.observe(section));
+    }, 1000); // give time for rendering
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   const navLinks = [
@@ -58,17 +83,22 @@ export function Header() {
               key={link.label}
               href={link.href}
               onMouseEnter={() => setHoveredIndex(index)}
-              className="relative px-5 py-2 text-sm font-medium text-zinc-300 hover:text-white transition-colors rounded-full"
+              className={`relative px-5 py-2 text-sm font-medium transition-colors rounded-full ${
+                activeSection === link.href ? "text-white" : "text-zinc-300 hover:text-white"
+              }`}
             >
               {hoveredIndex === index && (
                 <motion.div
                   layoutId="nav-hover-bg"
-                  className="absolute inset-0 bg-white/10 rounded-full"
+                  className="absolute inset-0 bg-white/5 rounded-full"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
+              )}
+              {activeSection === link.href && (
+                <div className="absolute inset-0 bg-white/10 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
               )}
               <span className="relative z-10">{link.label}</span>
             </Link>
@@ -77,14 +107,15 @@ export function Header() {
 
         {/* Desktop CTA */}
         <div className="hidden lg:flex items-center shrink-0">
-          <a
+          <MagneticButton
+            as="a"
             href="https://wa.me/5531995998390"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white text-black px-6 py-2.5 rounded-full text-sm font-medium hover:scale-105 transition-transform duration-300"
+            className="bg-white text-black px-6 py-2.5 rounded-full text-sm font-medium hover:scale-105 transition-transform duration-300 flex items-center justify-center"
           >
             Agendar serviço
-          </a>
+          </MagneticButton>
         </div>
 
         {/* Mobile Toggle */}

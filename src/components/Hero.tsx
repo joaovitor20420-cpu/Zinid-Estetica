@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { MagneticButton } from "./MagneticButton";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -197,7 +198,7 @@ export function Hero() {
   }, { scope: container });
 
   return (
-    <section ref={container} className="relative w-full h-[100dvh] bg-zinid-black overflow-hidden flex flex-col lg:flex-row">
+    <section ref={container} data-bgcolor="#000000" className="relative w-full h-[100dvh] bg-transparent overflow-hidden flex flex-col lg:flex-row">
       {/* Background Canvas (Image Sequence) */}
       <div className="absolute inset-0 z-0">
         <canvas
@@ -237,20 +238,22 @@ export function Hero() {
           </p>
 
           <div className="hero-sub opacity-0 flex flex-col sm:flex-row items-start sm:items-center gap-3 md:gap-4">
-            <a
+            <MagneticButton
+              as="a"
               href="https://wa.me/5531995998390"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-black px-6 py-3 md:px-8 md:py-4 text-sm md:text-base font-medium hover:bg-zinc-200 transition-colors w-full sm:w-auto text-center shrink-0"
+              className="bg-white text-black px-6 py-3 md:px-8 md:py-4 text-sm md:text-base font-medium hover:bg-zinc-200 transition-colors w-full sm:w-auto text-center shrink-0 flex items-center justify-center"
             >
               AGENDAR MEU SERVIÇO
-            </a>
-            <a
+            </MagneticButton>
+            <MagneticButton
+              as="a"
               href="#servicos"
-              className="text-white border border-white/20 px-6 py-3 md:px-8 md:py-4 text-sm md:text-base font-medium hover:bg-white/10 transition-colors w-full sm:w-auto text-center shrink-0 backdrop-blur-sm bg-black/20"
+              className="text-white border border-white/20 px-6 py-3 md:px-8 md:py-4 text-sm md:text-base font-medium hover:bg-white/10 transition-colors w-full sm:w-auto text-center shrink-0 backdrop-blur-sm bg-black/20 flex items-center justify-center"
             >
               VER SERVIÇOS
-            </a>
+            </MagneticButton>
           </div>
         </div>
       </div>

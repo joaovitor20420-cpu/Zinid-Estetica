@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -114,13 +115,37 @@ export function Gallery() {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} id="galeria" className="py-40 bg-black relative overflow-hidden border-t border-white/5">
+    <section ref={containerRef} id="galeria" data-bgcolor="#00102A" className="py-40 bg-transparent relative overflow-hidden border-t border-white/5">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center mb-32 max-w-3xl mx-auto gallery-header opacity-0">
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-6 text-white">
-            RESULTADOS QUE <br className="hidden md:block" />
-            <span className="text-zinc-600">FALAM POR SI.</span>
-          </h2>
+          <motion.h2
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              visible: { transition: { staggerChildren: 0.15 } }
+            }}
+            className="text-4xl md:text-6xl font-bold tracking-tighter mb-6 text-white flex flex-col items-center"
+          >
+            <span className="overflow-hidden pb-1 md:pb-2">
+              <motion.span 
+                variants={{ hidden: { y: "100%", rotateX: -20, opacity: 0 }, visible: { y: 0, rotateX: 0, opacity: 1 } }} 
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} 
+                className="inline-block origin-bottom"
+              >
+                RESULTADOS QUE
+              </motion.span>
+            </span>
+            <span className="overflow-hidden pb-1 md:pb-2">
+              <motion.span 
+                variants={{ hidden: { y: "100%", rotateX: -20, opacity: 0 }, visible: { y: 0, rotateX: 0, opacity: 1 } }} 
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} 
+                className="inline-block text-zinc-600 origin-bottom"
+              >
+                FALAM POR SI.
+              </motion.span>
+            </span>
+          </motion.h2>
           <p className="text-lg md:text-xl text-zinc-400">
             Confira alguns dos trabalhos realizados pela Zinid através de uma perspectiva detalhada.
           </p>

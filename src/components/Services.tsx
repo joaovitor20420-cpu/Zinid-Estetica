@@ -56,7 +56,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         ease: [0.16, 1, 0.3, 1] 
       }}
       whileHover={{ y: -10 }}
-      className={`group relative min-h-[400px] md:min-h-[450px] bg-zinid-dark overflow-hidden rounded-2xl cursor-default ${service.colSpan} border border-zinid-blue/20 shadow-[0_0_30px_rgba(0,71,255,0.05)] md:border-white/5 md:shadow-none transition-all duration-500 md:hover:border-zinid-blue/40 md:hover:shadow-[0_0_40px_rgba(0,71,255,0.15)]`}
+      className={`group relative min-h-[400px] md:min-h-[450px] bg-white/5 backdrop-blur-md overflow-hidden rounded-2xl cursor-default ${service.colSpan} border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.2)] md:border-white/5 md:shadow-none transition-all duration-500 md:hover:border-white/20 md:hover:bg-white/10 md:hover:shadow-[0_0_40px_rgba(0,0,0,0.3)]`}
       style={{ perspective: "1000px" }}
     >
       {/* Imagem com Parallax mais forte e Zoom no hover */}
@@ -101,21 +101,39 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
 
 export function Services() {
   return (
-    <section id="servicos" className="py-32 bg-zinid-black relative overflow-hidden">
+    <section id="servicos" data-bgcolor="#0C0C12" className="py-32 bg-transparent relative overflow-hidden">
       {/* Luz ambiente abstrata de fundo */}
       <div className="absolute top-0 left-0 w-full h-[500px] bg-zinid-blue/5 rounded-[100%] blur-[120px] pointer-events-none -translate-y-1/2" />
       
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         <div className="mb-20">
           <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-8 text-white"
+            variants={{
+              visible: { transition: { staggerChildren: 0.15 } }
+            }}
+            className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tighter mb-8 text-white flex flex-col items-start"
           >
-            DETALHAMENTO QUE <br className="hidden md:block" />
-            <span className="text-zinc-600">FAZ A DIFERENÇA.</span>
+            <span className="overflow-hidden pb-1 md:pb-2">
+              <motion.span 
+                variants={{ hidden: { y: "100%", rotateX: -20, opacity: 0 }, visible: { y: 0, rotateX: 0, opacity: 1 } }} 
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} 
+                className="inline-block origin-bottom"
+              >
+                DETALHAMENTO QUE
+              </motion.span>
+            </span>
+            <span className="overflow-hidden pb-1 md:pb-2">
+              <motion.span 
+                variants={{ hidden: { y: "100%", rotateX: -20, opacity: 0 }, visible: { y: 0, rotateX: 0, opacity: 1 } }} 
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} 
+                className="inline-block text-zinc-600 origin-bottom"
+              >
+                FAZ A DIFERENÇA.
+              </motion.span>
+            </span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

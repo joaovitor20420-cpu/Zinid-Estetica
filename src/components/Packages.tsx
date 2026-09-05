@@ -45,7 +45,7 @@ const packages = [
 
 export function Packages() {
   return (
-    <section id="pacotes" className="py-32 bg-black relative border-y border-white/5 overflow-hidden">
+    <section id="pacotes" data-bgcolor="#002E99" className="py-32 bg-transparent relative border-y border-white/5 overflow-hidden">
       {/* Ambient Light */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-zinid-blue/5 rounded-[100%] blur-[120px] pointer-events-none" />
 
@@ -53,13 +53,32 @@ export function Packages() {
         
         <div className="text-center mb-20">
            <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-white"
+            variants={{
+              visible: { transition: { staggerChildren: 0.15 } }
+            }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-white flex justify-center items-center gap-3 md:gap-4 flex-wrap"
           >
-            NOSSOS <span className="text-zinid-blue">PACOTES</span>
+            <span className="overflow-hidden pb-1 md:pb-2">
+              <motion.span 
+                variants={{ hidden: { y: "100%", rotateX: -20, opacity: 0 }, visible: { y: 0, rotateX: 0, opacity: 1 } }} 
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} 
+                className="inline-block origin-bottom"
+              >
+                NOSSOS
+              </motion.span>
+            </span>
+            <span className="overflow-hidden pb-1 md:pb-2">
+              <motion.span 
+                variants={{ hidden: { y: "100%", rotateX: -20, opacity: 0 }, visible: { y: 0, rotateX: 0, opacity: 1 } }} 
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} 
+                className="inline-block text-zinid-blue origin-bottom"
+              >
+                PACOTES
+              </motion.span>
+            </span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -80,10 +99,10 @@ export function Packages() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.15 }}
-              className={`relative rounded-3xl p-8 md:p-10 transition-transform duration-500 hover:-translate-y-2 ${
+              className={`relative rounded-3xl p-8 md:p-10 transition-transform duration-500 hover:-translate-y-2 backdrop-blur-2xl ${
                 pkg.highlight 
-                  ? "bg-zinc-900 border border-zinid-blue shadow-[0_0_40px_rgba(0,71,255,0.15)] lg:-translate-y-4 hover:shadow-[0_0_60px_rgba(0,71,255,0.25)]" 
-                  : "bg-zinc-950/50 backdrop-blur-sm border border-white/5"
+                  ? "bg-black/40 border border-white/30 shadow-[0_20_40px_rgba(0,0,0,0.5)] lg:-translate-y-4 hover:shadow-[0_30_60px_rgba(0,0,0,0.6)]" 
+                  : "bg-black/20 border border-white/10 hover:bg-black/30"
               }`}
             >
               {pkg.highlight && (

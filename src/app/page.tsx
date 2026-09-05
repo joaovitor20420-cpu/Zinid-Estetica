@@ -11,22 +11,25 @@ import { Location } from "@/components/Location";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
+import { ColorWrapper } from "@/components/ColorWrapper";
 
 export default function Home() {
   return (
     <>
       <Header />
       <main>
-        <Hero />
-        <TrustBar />
-        <Services />
-        <Packages />
-        <WhyUs />
-        <Process />
-        <Gallery />
-        <Reviews />
-        <Location />
-        <FinalCTA />
+        <ColorWrapper>
+          <Hero />
+          <TrustBar />
+          <Services />
+          <Packages />
+          <WhyUs />
+          <Process />
+          <Gallery />
+          <Reviews />
+          <Location />
+          <FinalCTA />
+        </ColorWrapper>
       </main>
       <Footer />
       <FloatingWhatsApp />

@@ -8,6 +8,7 @@
   --color-zinid-silver: #E0E0E0;
   
   --font-sans: var(--font-inter);
+  --font-display: var(--font-outfit);
 }
 
 :root {
@@ -20,6 +21,10 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
   overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), sans-serif;
 }
 
 /* Custom Scrollbar */
@@ -50,4 +55,13 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-150%) skewX(-12deg); }
+  100% { transform: translateX(150%) skewX(-12deg); }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
 }
