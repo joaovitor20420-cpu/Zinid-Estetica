@@ -56,7 +56,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
         ease: [0.16, 1, 0.3, 1] 
       }}
       whileHover={{ y: -10 }}
-      className={`group relative min-h-[400px] md:min-h-[450px] bg-white/5 backdrop-blur-md overflow-hidden rounded-2xl cursor-default ${service.colSpan} border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.2)] md:border-white/5 md:shadow-none transition-all duration-500 md:hover:border-white/20 md:hover:bg-white/10 md:hover:shadow-[0_0_40px_rgba(0,0,0,0.3)]`}
+      className={`group relative min-h-[400px] md:min-h-[450px] bg-zinc-900/40 backdrop-blur-md overflow-hidden rounded-2xl cursor-default ${service.colSpan} border border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)] md:border-white/5 transition-all duration-500 md:hover:border-zinid-blue/50 md:hover:bg-zinid-blue/5 md:hover:shadow-[0_0_50px_rgba(0,71,255,0.25)]`}
       style={{ perspective: "1000px" }}
     >
       {/* Imagem com Parallax mais forte e Zoom no hover */}
@@ -72,16 +72,18 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
       {/* Gradiente escuro para contraste do texto */}
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
       
-      {/* Luz radial azul - Ativa no mobile por padrão, hover no desktop */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(0,71,255,0.25),transparent_60%)] opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-700" />
+      {/* Luz radial azul mais forte e brilhante */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(0,71,255,0.6),transparent_70%)] opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-700 mix-blend-screen" />
+      {/* Brilho adicional no topo no hover */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-zinid-blue to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_20px_rgba(0,71,255,0.8)]" />
       
       <div className="absolute inset-x-0 bottom-0 p-8 md:p-10 flex flex-col justify-end h-full z-10 pointer-events-none">
         <div className="transform transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:translate-y-12 group-hover:translate-y-0">
           <h3 className="text-2xl md:text-3xl font-bold mb-2 text-white tracking-tight flex items-center justify-between">
             {service.title}
-            {/* Ícone de Seta em Círculo Neon - Visível no mobile, animado no hover do desktop */}
-            <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-full bg-zinid-blue/10 flex items-center justify-center border border-zinid-blue/30 shadow-[0_0_15px_rgba(0,71,255,0.3)] transition-all duration-500 ease-out opacity-100 translate-x-0 md:opacity-0 md:-translate-x-4 md:group-hover:opacity-100 md:group-hover:translate-x-0">
-              <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-zinid-blue" />
+            {/* Ícone de Seta em Círculo Neon MUITO MAIS BRILHANTE */}
+            <div className="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-full bg-zinid-blue/20 flex items-center justify-center border border-zinid-blue shadow-[0_0_20px_rgba(0,71,255,0.6)] transition-all duration-500 ease-out opacity-100 translate-x-0 md:opacity-0 md:-translate-x-4 md:group-hover:opacity-100 md:group-hover:translate-x-0 group-hover:bg-zinid-blue">
+              <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-white md:text-zinid-blue md:group-hover:text-white transition-colors duration-300" />
             </div>
           </h3>
           
@@ -102,8 +104,11 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
 export function Services() {
   return (
     <section id="servicos" data-bgcolor="#0C0C12" className="py-32 bg-transparent relative overflow-hidden">
-      {/* Luz ambiente abstrata de fundo */}
-      <div className="absolute top-0 left-0 w-full h-[500px] bg-zinid-blue/5 rounded-[100%] blur-[120px] pointer-events-none -translate-y-1/2" />
+      {/* Luzes ambientes abstratas de fundo com muito mais brilho */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[600px] bg-zinid-blue/20 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 mix-blend-screen" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-zinid-blue/15 rounded-full blur-[150px] pointer-events-none translate-y-1/2 translate-x-1/3 mix-blend-screen" />
+      {/* Linha de brilho superior */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinid-blue/50 to-transparent shadow-[0_0_20px_rgba(0,71,255,0.5)]" />
       
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         <div className="mb-20">
@@ -129,7 +134,7 @@ export function Services() {
               <motion.span 
                 variants={{ hidden: { y: "100%", rotateX: -20, opacity: 0 }, visible: { y: 0, rotateX: 0, opacity: 1 } }} 
                 transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} 
-                className="inline-block text-zinc-600 origin-bottom"
+                className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-zinid-blue via-blue-400 to-white origin-bottom drop-shadow-[0_0_15px_rgba(0,71,255,0.4)]"
               >
                 FAZ A DIFERENÇA.
               </motion.span>
