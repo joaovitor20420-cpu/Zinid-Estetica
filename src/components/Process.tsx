@@ -146,7 +146,7 @@ export function Process() {
   }, { scope: container });
 
   return (
-    <section ref={container} id="processos" data-bgcolor="#000000" className="py-10 md:py-20 min-h-[100vh] bg-transparent relative overflow-hidden border-t border-white/5 flex flex-col justify-center">
+    <section ref={container} id="processos" className="py-10 md:py-20 min-h-[100vh] bg-black relative overflow-hidden border-t border-white/5 flex flex-col justify-center">
       <div className="absolute top-1/2 right-0 w-[800px] h-[800px] bg-zinid-blue/10 rounded-full blur-[150px] pointer-events-none translate-x-1/2 -translate-y-1/2" />
       
       <div className="container mx-auto px-6 max-w-7xl relative z-10 flex flex-col lg:flex-row gap-8 lg:gap-24 items-center h-full">
@@ -188,7 +188,7 @@ export function Process() {
                   key={step.num} 
                   className="process-card absolute inset-0 w-full h-full will-change-transform"
                 >
-                  <div className="w-full h-full bg-black/40 backdrop-blur-xl border border-white/10 relative overflow-hidden rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.5)] transition-all duration-300 flex flex-col justify-end group">
+                  <div className="w-full h-full bg-black border border-white/10 relative overflow-hidden rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.5)] transition-all duration-300 flex flex-col justify-end group">
                     
                     {/* Imagem de Fundo (Placeholder utilizando as imagens da galeria) */}
                     <div className="absolute inset-0 z-0">

@@ -147,7 +147,7 @@ export function WhyUs() {
   }, { scope: container });
 
   return (
-    <section ref={container} id="sobre" data-bgcolor="#161618" className="py-16 md:py-32 bg-transparent border-y border-white/5 relative overflow-hidden">
+    <section ref={container} id="sobre" className="py-16 md:py-32 bg-[#161618] border-y border-white/5 relative overflow-hidden">
       
       {/* Background Parallax Sphere */}
       <div ref={bgSphere} className="absolute -top-32 left-1/4 w-[600px] h-[600px] bg-zinid-blue/15 rounded-full blur-[150px] pointer-events-none" />

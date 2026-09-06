@@ -190,7 +190,7 @@ function MobileServicesCarousel() {
 
 export function Services() {
   return (
-    <section id="servicos" data-bgcolor="#0C0C12" className="py-16 md:py-32 bg-transparent relative overflow-hidden">
+    <section id="servicos" className="py-16 md:py-32 bg-[#0C0C12] relative overflow-hidden">
       {/* Luzes ambientes abstratas de fundo */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[600px] bg-zinid-blue/20 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 mix-blend-screen" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-zinid-blue/15 rounded-full blur-[150px] pointer-events-none translate-y-1/2 translate-x-1/3 mix-blend-screen" />
