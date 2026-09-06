@@ -143,7 +143,7 @@ function MobileServicesCarousel() {
   }, { scope: sectionRef, dependencies: [isMobile] });
 
   return (
-    <div ref={sectionRef} className="md:hidden relative w-full overflow-hidden min-h-[85dvh] flex flex-col justify-center">
+    <div ref={sectionRef} className="md:hidden relative w-full overflow-hidden min-h-[85vh] flex flex-col justify-center">
       {/* Track que se move horizontalmente */}
       <div ref={trackRef} className="flex gap-4 px-6 will-change-transform">
         {services.map((service, index) => (

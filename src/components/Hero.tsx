@@ -198,7 +198,7 @@ export function Hero() {
   }, { scope: container });
 
   return (
-    <section ref={container} data-bgcolor="#000000" className="relative w-full h-[100dvh] bg-transparent overflow-hidden flex flex-col lg:flex-row">
+    <section ref={container} data-bgcolor="#000000" className="relative w-full min-h-[100vh] bg-transparent overflow-hidden flex flex-col lg:flex-row">
       {/* Background Canvas (Image Sequence) */}
       <div className="absolute inset-0 z-0">
         <canvas
