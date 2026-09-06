@@ -60,7 +60,8 @@ export function Process() {
         end: "+=300%",
         pin: true,
         scrub: 1, 
-        snap: 1 / (steps.length - 1), 
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
         onUpdate: (self) => {
           // Atualiza o menu lateral baseado no progresso
           const index = Math.round(self.progress * (steps.length - 1));

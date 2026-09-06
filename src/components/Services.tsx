@@ -109,38 +109,34 @@ function DesktopServiceCard({ service, index }: { service: typeof services[0]; i
 function MobileServicesCarousel() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
-
   useGSAP(() => {
-    if (!isMobile) return;
+    const mm = gsap.matchMedia();
     
-    const track = trackRef.current;
-    const section = sectionRef.current;
-    if (!track || !section) return;
+    mm.add("(max-width: 767px)", () => {
+      const track = trackRef.current;
+      const section = sectionRef.current;
+      if (!track || !section) return;
 
-    // Calcula o quanto precisa mover horizontalmente
-    const totalScrollWidth = track.scrollWidth - window.innerWidth + 48; // 48 = px-6 padding
+      // Calcula o quanto precisa mover horizontalmente
+      const totalScrollWidth = track.scrollWidth - window.innerWidth + 48; // 48 = px-6 padding
 
-    gsap.to(track, {
-      x: -totalScrollWidth,
-      ease: "none",
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: () => `+=${totalScrollWidth}`,
-        pin: true,
-        scrub: 0.8,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      },
+      gsap.to(track, {
+        x: -totalScrollWidth,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => `+=${totalScrollWidth}`,
+          pin: true,
+          scrub: 0.8,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
     });
 
-    ScrollTrigger.refresh();
-  }, { scope: sectionRef, dependencies: [isMobile] });
+    return () => mm.revert();
+  }, { scope: sectionRef });
 
   return (
     <div ref={sectionRef} className="md:hidden relative w-full overflow-hidden min-h-[85vh] flex flex-col justify-center">
