@@ -140,15 +140,13 @@ export function Process() {
       }
     });
 
-    setTimeout(() => {
-      ScrollTrigger.sort();
-      ScrollTrigger.refresh();
-    }, 100);
-
+    // Remove the timeout, let GSAP handle it naturally
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
   }, { scope: container });
 
   return (
-    <section ref={container} id="processos" data-bgcolor="#000000" className="py-10 md:py-20 h-[100dvh] bg-transparent relative overflow-hidden border-t border-white/5 flex flex-col justify-center">
+    <section ref={container} id="processos" data-bgcolor="#000000" className="py-10 md:py-20 min-h-[100vh] bg-transparent relative overflow-hidden border-t border-white/5 flex flex-col justify-center">
       <div className="absolute top-1/2 right-0 w-[800px] h-[800px] bg-zinid-blue/10 rounded-full blur-[150px] pointer-events-none translate-x-1/2 -translate-y-1/2" />
       
       <div className="container mx-auto px-6 max-w-7xl relative z-10 flex flex-col lg:flex-row gap-8 lg:gap-24 items-center h-full">

@@ -139,9 +139,7 @@ function MobileServicesCarousel() {
       },
     });
 
-    setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 200);
+    ScrollTrigger.refresh();
   }, { scope: sectionRef, dependencies: [isMobile] });
 
   return (
