@@ -28,16 +28,35 @@ export function Hero() {
     const ctx = canvas?.getContext("2d", { alpha: false });
     if (!canvas || !ctx) return;
     
-    const img = imagesRef.current[index];
-    if (!img) return;
-
-    if (img.complete && img.naturalWidth > 0) {
-      if (canvas.width !== img.naturalWidth) {
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
+    let img = imagesRef.current[index];
+    
+    // Se a imagem exata não estiver pronta, busca a mais próxima já carregada para evitar travamento
+    if (!img || !img.complete || img.naturalWidth === 0) {
+      let closestImg = null;
+      for (let offset = 0; offset < FRAME_COUNT; offset++) {
+        const img1 = imagesRef.current[index - offset];
+        if (img1 && img1.complete && img1.naturalWidth > 0) {
+          closestImg = img1;
+          break;
+        }
+        const img2 = imagesRef.current[index + offset];
+        if (img2 && img2.complete && img2.naturalWidth > 0) {
+          closestImg = img2;
+          break;
+        }
       }
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      if (closestImg) {
+        img = closestImg;
+      } else {
+        return; // Nenhuma imagem carregada ainda
+      }
     }
+
+    if (canvas.width !== img.naturalWidth) {
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+    }
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   };
 
   // Preload progressivo e inteligente
@@ -50,39 +69,46 @@ export function Hero() {
     const images: HTMLImageElement[] = [];
     for (let i = 0; i < FRAME_COUNT; i++) {
       const img = new Image();
-      img.addEventListener("load", () => {
-        // Se a imagem que acabou de carregar for o frame atual, desenha imediatamente
-        if (currentFrameRef.current === i) {
-          drawFrame(i);
-        }
-      });
       images.push(img);
     }
     imagesRef.current = images;
 
     const preloadRest = () => {
-      let currentIndex = 1;
+      // Coarse-to-fine load sequence para garantir que sempre haja frames próximos carregados
+      const loadQueue: number[] = [];
+      const added = new Set<number>();
+      
+      // 1ª Passada: a cada 12 frames (cobre toda a animação com ~25 requisições)
+      for (let i = 0; i < FRAME_COUNT; i += 12) { loadQueue.push(i); added.add(i); }
+      // 2ª Passada: a cada 6 frames
+      for (let i = 0; i < FRAME_COUNT; i += 6) { if (!added.has(i)) { loadQueue.push(i); added.add(i); } }
+      // 3ª Passada: a cada 3 frames
+      for (let i = 0; i < FRAME_COUNT; i += 3) { if (!added.has(i)) { loadQueue.push(i); added.add(i); } }
+      // 4ª Passada: restante
+      for (let i = 0; i < FRAME_COUNT; i++) { if (!added.has(i)) { loadQueue.push(i); added.add(i); } }
+
+      let queueIndex = 1; // Pula o frame 0 que já foi carregado
       
       const loadNextBatch = () => {
-        if (currentIndex >= FRAME_COUNT) {
+        if (queueIndex >= loadQueue.length) {
           setIsReady(true);
           return;
         }
         
-        const batchSize = 6; // Carrega 6 frames por vez em background
+        const batchSize = 6; 
         let loadedInBatch = 0;
-        const toLoad = Math.min(batchSize, FRAME_COUNT - currentIndex);
+        const toLoad = Math.min(batchSize, loadQueue.length - queueIndex);
         
         const onComplete = () => {
           loadedInBatch++;
           if (loadedInBatch === toLoad) {
-             currentIndex += toLoad;
+             queueIndex += toLoad;
              requestAnimationFrame(loadNextBatch);
           }
         };
 
         for (let i = 0; i < toLoad; i++) {
-          const idx = currentIndex + i;
+          const idx = loadQueue[queueIndex + i];
           const img = imagesRef.current[idx];
           
           if (img.src) {
@@ -95,19 +121,25 @@ export function Hero() {
              continue;
           }
           
-          img.addEventListener("load", onComplete, { once: true });
-          img.addEventListener("error", onComplete, { once: true }); // Continua se falhar
+          img.addEventListener("load", () => {
+             // Atualiza o canvas caso essa imagem seja muito próxima do frame atual
+             if (Math.abs(currentFrameRef.current - idx) <= 6) {
+                drawFrame(currentFrameRef.current);
+             }
+             onComplete();
+          }, { once: true });
+          img.addEventListener("error", onComplete, { once: true });
           img.src = `/${folderRef.current}/frame_${String(idx + 1).padStart(4, "0")}.jpg`;
         }
       };
       
-      // Inicia com leve delay para priorizar recursos críticos da página
-      setTimeout(loadNextBatch, 200);
+      setTimeout(loadNextBatch, 100);
     };
 
     // Inicia pelo primeiro frame
     const firstImg = images[0];
     firstImg.addEventListener("load", () => {
+      drawFrame(0);
       preloadRest();
       ScrollTrigger.refresh(); // Atualiza trigger com dimensões reais
     }, { once: true });
@@ -129,6 +161,11 @@ export function Hero() {
     const requestFrameLoad = (index: number) => {
        const img = imagesRef.current[index];
        if (img && !img.src) {
+          img.addEventListener("load", () => {
+            if (Math.abs(currentFrameRef.current - index) <= 2) {
+              drawFrame(currentFrameRef.current);
+            }
+          }, { once: true });
           img.src = `/${folderRef.current}/frame_${String(index + 1).padStart(4, "0")}.jpg`;
        }
     };
